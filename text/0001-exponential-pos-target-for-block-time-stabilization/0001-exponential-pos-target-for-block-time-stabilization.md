@@ -11,6 +11,7 @@ Stabilizing the Proof-of-Stake block timing by multiplying the hash target using
 
 ## Conventions
 - The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
+- The verb "TO STAKE" or "STAKING" refers to the action of trying to create a Block using Proof-of-Stake.
 
 ## Motivation
 Due to the nature of Peercoin's Proof-of-Stake algorithm, large variations in time between Proof-of-Stake blocks exist.
@@ -41,6 +42,17 @@ f(t) = ceil(10*10*(exp(cte * t)))/10
 
 ![exponential function plotted with linear axes](exp-lin.png)
 ![exponential function plotted with logarithmic y-axis](exp-log.png)
+
+### Staking future blocks
+One could argue that this multiplier incentivizes staking blocks in the future, as a future block has a much lower hash target to meet.
+Therefore, it is important that this multiplier is included in the calculation of the chain trust.
+So that if a node stakes a block in the future, it will be orphaned by a block closer to the present.
+
+Well behaving nodes should shelve future blocks until their time is reached, so they won't participate in staking blocks on top of a future block.
+
+Opportunistic nodes might stake on top of both chains.
+However, the future chain will very rapidly exceed the maximum allowed clock drift, resulting in all nodes discarding it quickly.
+The honest chain will easily outperform the future chain's trust that is at best advancing at the edge of the maximum clock drift.
 
 ### Implementation
 *At the time of writing (05-January-2017), this concept is being implemented parallel to this discussion, to be published and tested on peercoin's testnet soon.*
