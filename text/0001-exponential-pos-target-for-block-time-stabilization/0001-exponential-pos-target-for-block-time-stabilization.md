@@ -42,6 +42,21 @@ f(t) = ceil(10*10*(exp(cte * t)))/10
 ![exponential function plotted with linear axes](exp-lin.png)
 ![exponential function plotted with logarithmic y-axis](exp-log.png)
 
+### Implementation
+*At the time of writing (05-January-2017), this concept is being implemented parallel to this discussion, to be published and tested on peercoin's testnet soon.*
+
+Code changes to the current retarget algorithm can be easily avoided by not including the multiplier in the block's nBits field.
+The multiplier fully determined by the time since the Proof-of-Stake last block.
+Therefore, the multiplier should be calculated on the fly during the actions listed below:
+
+* Block creation
+* Block validation
+* Block trust calculation
+
+No changes to the block serialization are required.
+However, old and new clients will often reject each other's blocks.
+Therefore, a hard fork is required for this protocol change.
+
 ## Drawbacks
 
 Why should we *not* do this?
