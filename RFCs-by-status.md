@@ -7,6 +7,7 @@ A list of all RFCs by their current status.
 
 ## Proposed RFCs
 
+ - [#0001 Exponential PoS Target for Block Time Stabilization](./text/0001-exponential-pos-target-for-block-time-stabilization/0001-exponential-pos-target-for-block-time-stabilization.md)
 
 ## Agreed RFCs
 
@@ -18,4 +19,4 @@ A list of all RFCs by their current status.
 
 
 
-(Last updated _Wed  4 Jan 18:21:44 CET 2017_ at REV [3dcab92](https://github.com/peercoin/rfcs/commit/3dcab92e6da94ad41d2b7e9dedec803bcc79a57b))
+(Last updated _Thu  5 Jan 19:26:36 CET 2017_ at REV [a1f3806](https://github.com/peercoin/rfcs/commit/a1f3806fd3fc098e0dcc4cc47e611602cf1250bb))

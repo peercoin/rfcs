@@ -7,6 +7,7 @@
 - Discussion: (fill me in with link to RFC discussion - shepherd will complete this) 
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
+- Author: (your name)
 
 ## Summary
 

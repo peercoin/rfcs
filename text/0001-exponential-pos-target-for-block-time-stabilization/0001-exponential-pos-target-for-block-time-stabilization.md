@@ -5,6 +5,7 @@
 - Related components: `protocol`
 - Start Date: 04-January-2017
 - Discussion: (fill me in with link to RFC discussion - shepherd will complete this)
+- Author: hrobeers
 
 ## Summary
 Stabilizing the Proof-of-Stake block timing by multiplying the hash target using an exponential function of seconds since the last PoS block.
