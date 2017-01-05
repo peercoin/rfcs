@@ -54,6 +54,11 @@ Opportunistic nodes might stake on top of both chains.
 However, the future chain will very rapidly exceed the maximum allowed clock drift, resulting in all nodes discarding it quickly.
 The honest chain will easily outperform the future chain's trust that is at best advancing at the edge of the maximum clock drift.
 
+##### *Note about Proof-of-Work*
+*When considering Proof-of-Work mining, a miner mining a future chain takes a big risk by putting it's hash power at stake on the future chain.
+Reinforcing the hybrid nature of the Peercoin blockchain, so it becomes feasible to require a Proof-of-Work confirmation next to Proof-of-Stake confirmations, would considerably increase transaction security.
+The discussion about reinforcing the hybrid nature is outside the scope of this proposal as it's benefits are independent of it.*
+
 ### Implementation
 *At the time of writing (05-January-2017), this concept is being implemented parallel to this discussion, to be published and tested on peercoin's testnet soon.*
 
