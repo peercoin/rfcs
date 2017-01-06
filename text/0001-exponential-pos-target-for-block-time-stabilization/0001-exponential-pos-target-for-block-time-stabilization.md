@@ -29,7 +29,7 @@ Such a system would naturally push the block interval closer to the target even 
 The hash target for PoS blocks is multiplied by a factor ranging between 10 and 0.1.
 Meaning that the effective hash target to stake a block one second after a previous block equals 10 times the static target.
 While the effective hash target to stake a block 20 minutes or later after a previous block equals the static target divided by 10.
-To make this multiplier equal to 1 with a 10 minute interval, and exponential functions should be used to calculate it based on the number of seconds since the last block.
+To make this multiplier equal to 1 with a 10 minute interval, an exponential function should be used to calculate it based on the number of seconds since the last block.
 
 ### Exponential multiplier
 Since the hash target is encoded as a 256bit integer that only supports multiplication by an integral number, a sampled version of the continuous exponential function is used.
