@@ -48,13 +48,21 @@ f(t) = ceil(10*10*(exp(cte * t)))/10
 ### Staking future blocks
 One could argue that this multiplier incentivizes staking blocks in the future, as a future block has a much lower hash target to meet.
 Therefore, it is important that this multiplier is included in the calculation of the chain trust.
-So that if a node stakes a block in the future, it will be orphaned by a block closer to the present.
+So that if a node stakes a block in the future, it will be orphaned by blocks closer to the present.
 
-Well behaving nodes should shelve future blocks until their time is reached, so they won't participate in staking blocks on top of a future block.
+Staking future blocks is nothing new, the current protocol accepts future blocks in a certain range and doesn't require blocks on the chain to have a strictly rising time.
+Malicious nodes can decide to stake a wider timerange to increase their chances of finding blocks or to organize their blocks to increase their chances on a successfull double spend attack.
+
+The exponential target multiplier makes it very hard to stake a block prior or close to the previous block, effectively reducing the timerange an attacker can use to stake.
+On the other hand, the chances of finding a block in the far future is drastically increased.
+Therefore, well behaving nodes should shelve future blocks until their block time is reached, so they won't participate in staking blocks on top of a future block.
+The clocks of well behaving nodes are not expected to drift more than a few seconds.
+Meaning that an honest future block is not expected to be shelved longer than expected network relay times.
 
 Opportunistic nodes might stake on top of both chains.
-However, the future chain will very rapidly exceed the maximum allowed clock drift, resulting in all nodes discarding it quickly.
-The honest chain will easily outperform the future chain's trust that is at best advancing at the edge of the maximum clock drift.
+But to effectively stake top of a future block, the search interval should be extended even further in the future.
+Meaning that the future chain will very rapidly exceed the maximum allowed clock drift, resulting in all nodes discarding it quickly.
+While the honest chain will easily outperform the future chain's trust that is at best advancing at the edge of the maximum clock drift.
 
 ##### *Note about Proof-of-Work*
 *When considering Proof-of-Work mining, a miner mining a future chain takes a big risk by putting it's hash power at stake on the future chain.
@@ -79,8 +87,10 @@ Therefore, a hard fork is required for this protocol change.
 ## Advantages
 
 * Proof-of-Stake blocks are staked at a much more stable rate closer to the target rate.
-* Staking multiple non-future blocks in a row is much harder due to the reduced advantage of network latency.
+* The competitive advantage of staking a wide timerange is greatly reduced.
+* Staking multiple non-future blocks in a row is much harder due to the previous point and the reduced advantage of network latency.
 * Chance-to-stake pre-calculation accuracy is reduced, incentivizing more continuous staking.
+* Block timestamps differ less from the actual creation time.
 
 ## Drawbacks
 
