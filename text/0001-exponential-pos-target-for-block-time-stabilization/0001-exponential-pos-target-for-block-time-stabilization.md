@@ -18,20 +18,18 @@ Stabilizing the Proof-of-Stake block timing by multiplying the hash target using
 ## Motivation
 Due to the nature of Peercoin's Proof-of-Stake algorithm, large variations in time between Proof-of-Stake blocks exist.
 Large holders tend to stake their coins periodically and start staking at low difficulty, producing blocks at a much higher rate than intended.
-Once all the large holder's coins successfully staked, the Proof-of-Stake targed is raised significantly leading to block timings much larger than intended until the target has settled again.
+Once all the large holder's coins successfully staked, the Proof-of-Stake target is raised significantly leading to block timings much larger than intended until the target has settled again.
 This behavior restults in unpredictable confirmation times and therefore compromises the reliability and usability of transactions on the peercoin blockchain.
 
-Unlike the the Proof-of-Work scheme, the Proof-of-Stake scheme is coupled to the network time.
-This property allows for a much finer control over the target, making it harder to stake blocks with an interval smaller than spacing target, and making it easier to stake blocks with an interval larger than spacing target.
+Unlike the Proof-of-Work scheme, the Proof-of-Stake scheme is coupled to the network time.
+This property allows for a much finer control over the hash target, making it harder to stake blocks with an interval smaller than the spacing target, and making it easier to stake blocks with an interval larger than the spacing target.
 Such a system would naturally push the block interval closer to the target even when large stakeholders suddenly join or leave the network.
 
-## Detailed design
-The hash target for PoS blocks is multiplied by a factor ranging between 10 and 0.1.
-Meaning that the effective hash target to stake a block one second after a previous block equals 10 times the static target.
-While the effective hash target to stake a block 20 minutes or later after a previous block equals the static target divided by 10.
+## Detailed Design
+The hash target for PoS blocks is multiplied by a factor ranging between 10 and 0.1, meaning that the effective hash target to stake a block one second after a previous block equals 10 times the static target, while the effective hash target to stake a block 20 minutes or later after a previous block equals the static target divided by 10.
 To make this multiplier equal to 1 with a 10 minute interval, an exponential function should be used to calculate it based on the number of seconds since the last block.
 
-### Exponential multiplier
+### Exponential Multiplier
 Since the hash target is encoded as a 256bit integer that only supports multiplication by an integral number, a sampled version of the continuous exponential function is used.
 This reduces the compiler sensitivity to floating point precision and ensures that the multiplier has a minimum of 0.1.
 
@@ -45,36 +43,32 @@ f(t) = ceil(10*10*(exp(cte * t)))/10
 ![exponential function plotted with linear axes](exp-lin.png)
 ![exponential function plotted with logarithmic y-axis](exp-log.png)
 
-### Staking future blocks
+### Staking Future Blocks
 One could argue that this multiplier incentivizes staking blocks in the future, as a future block has a much lower hash target to meet.
-Therefore, it is important that this multiplier is included in the calculation of the chain trust.
-So that if a node stakes a block in the future, it will be orphaned by blocks closer to the present.
+Therefore, it is important that this multiplier is included in the calculation of the chain trust, so that if a node stakes a block in the future, it will be orphaned by blocks closer to the present.
 
 Staking future blocks is nothing new, the current protocol accepts future blocks in a certain range and doesn't require blocks on the chain to have a strictly rising time.
-Malicious nodes can decide to stake a wider timerange to increase their chances of finding blocks or to organize their blocks to increase their chances on a successfull double spend attack.
+Malicious nodes can decide to stake a wider timerange to increase their chances of finding blocks or to organize their blocks to increase their chances on a successful double spend attack.
 
 The exponential target multiplier makes it very hard to stake a block prior or close to the previous block, effectively reducing the timerange an attacker can use to stake.
 On the other hand, the chances of finding a block in the far future is drastically increased.
 Therefore, well behaving nodes should shelve future blocks until their block time is reached, so they won't participate in staking blocks on top of a future block.
-The clocks of well behaving nodes are not expected to drift more than a few seconds.
-Meaning that an honest future block is not expected to be shelved longer than expected network relay times.
+The clocks of well behaving nodes are not expected to drift more than a few seconds, meaning that an honest future block is not expected to be shelved longer than expected network relay times.
 
 Opportunistic nodes might stake on top of both chains.
-But to effectively stake top of a future block, the search interval should be extended even further in the future.
-Meaning that the future chain will very rapidly exceed the maximum allowed clock drift, resulting in all nodes discarding it quickly.
+To effectively stake on top of a future block, the search interval should be extended even further in the future, meaning that the future chain will very rapidly exceed the maximum allowed clock drift, resulting in all nodes discarding it quickly.
 While the honest chain will easily outperform the future chain's trust that is at best advancing at the edge of the maximum clock drift.
 
 ##### *Note about Proof-of-Work*
-*When considering Proof-of-Work mining, a miner mining a future chain takes a big risk by putting it's hash power at stake on the future chain.
-Reinforcing the hybrid nature of the Peercoin blockchain, so it becomes feasible to require a Proof-of-Work confirmation next to Proof-of-Stake confirmations, would considerably increase transaction security.
-The discussion about reinforcing the hybrid nature is outside the scope of this proposal as it's benefits are independent of it.*
+*When considering Proof-of-Work mining a miner mining a future chain takes a big risk by putting its hash power at stake on the future chain.
+Reinforcing the hybrid nature of the Peercoin blockchain so it becomes feasible to require a Proof-of-Work confirmation next to Proof-of-Stake confirmations, would considerably increase transaction security.
+The discussion about reinforcing the hybrid nature is outside the scope of this proposal as its benefits are independent of it.*
 
 ### Implementation
 *At the time of writing (05-January-2017), this concept is being implemented parallel to this discussion, to be published and tested on peercoin's testnet soon.*
 
 Code changes to the current retarget algorithm can be easily avoided by not including the multiplier in the block's nBits field.
-The multiplier fully determined by the time since the Proof-of-Stake last block.
-Therefore, the multiplier should be calculated on the fly during the actions listed below:
+The multiplier is fully determined by the time since the last Proof-of-Stake block, therefore the multiplier should be calculated on the fly during the actions listed below:
 
 * Block creation
 * Block validation
@@ -100,7 +94,7 @@ Care should be taken to correctly shelve future blocks.
 ## Alternatives
 
 * Controlling the next block's hash target using a PID controller to more dynamically adapt to changes in staking power.
-However, due to the unstable block timing, the PID controller must be tuned very conservative and therefore have a much lower effect than a time dependent multiplier.
+However, due to the unstable block timing, the PID controller must be tuned very conservatively, therefore having a much lower effect than a time dependent multiplier.
 
 ## Unresolved questions
 
