@@ -31,17 +31,24 @@ To make this multiplier equal to 1 with a 10 minute interval, an exponential fun
 
 ### Exponential Multiplier
 Since the hash target is encoded as a 256bit integer that only supports multiplication by an integral number, a sampled version of the continuous exponential function is used.
-This reduces the compiler sensitivity to floating point precision and ensures that the multiplier has a minimum of 0.1.
+The sampling resolution is a trade off between low difficulty steps and a reduction of the hash target range.
+One could argue that it would be simpler to implement only a few difficulty steps instead of a sampled exponential function, however the bigger the step in difficulty the higher the chance two blocks are staked short after the difficulty reduction.
+Therefore a resolution multiplier `m=10` is chosen to produce reasonable low difficulty steps while limiting the reduction of the hash target range to a factor 10.
+The function can be implemented as a lookup table to completely avoid sensitivity to compiler floating point precision.
 
 The resulting exponential function is shown below, where t is the time in seconds.
 
 ```python
-cte = ln(1/10)/600
-f(t) = ceil(10*10*(exp(cte * t)))/10
+m = 10              # resolution multiplier
+cte = ln(1/10)/600  # decay constant: divide by 10 every 600 seconds
+
+f(t) = ceil(m*10*(exp(cte * t)))/m
 ```
 
 ![exponential function plotted with linear axes](exp-lin.png)
 ![exponential function plotted with logarithmic y-axis](exp-log.png)
+
+Note that this function has a minimum of 0.1.
 
 ### Staking Future Blocks
 One could argue that this multiplier incentivizes staking blocks in the future, as a future block has a much lower hash target to meet.
@@ -98,5 +105,8 @@ However, due to the unstable block timing, the PID controller must be tuned very
 
 ## Unresolved questions
 
+* Fine tune multiplication factors and decay constant.
+* Current network clock drift?
+* Reasonable clock drift that can be assumed between honest nodes, provided that large percentage syncs over NTP?
 * Finishing the implementation
 * Testing on testnet
