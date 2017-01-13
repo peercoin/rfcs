@@ -26,45 +26,48 @@ This property allows for a much finer control over the hash target, making it ha
 Such a system would naturally push the block interval closer to the target even when large stakeholders suddenly join or leave the network.
 
 ## Detailed Design
-The hash target for PoS blocks is multiplied by a factor ranging between 10 and 0.1, meaning that the effective hash target to stake a block one second after a previous block equals 10 times the static target, while the effective hash target to stake a block 20 minutes or later after a previous block equals the static target divided by 10.
+The hash target for PoS blocks is multiplied by a factor ranging between 0.1 and 10, meaning that the difficulty to stake a block one second after a previous block equals 10 times the static difficulty, while the difficulty to stake a block 20 minutes or later after a previous block equals the static difficulty divided by 10.
 To make this multiplier equal to 1 with a 10 minute interval, an exponential function should be used to calculate it based on the number of seconds since the last block.
 
 ### Exponential Multiplier
 Since the hash target is encoded as a 256bit integer that only supports multiplication by an integral number, a sampled version of the continuous exponential function is used.
 The sampling resolution is a trade off between low difficulty steps and a reduction of the hash target range.
 One could argue that it would be simpler to implement only a few difficulty steps instead of a sampled exponential function, however the bigger the step in difficulty the higher the chance two blocks are staked short after the difficulty reduction.
-Therefore a resolution multiplier `m=10` is chosen to produce reasonable low difficulty steps while limiting the reduction of the hash target range to a factor 10.
+Therefore a resolution multiplier `res=20` is chosen to produce reasonable low difficulty steps while limiting the reduction of the hash target range to a factor 10.
 The function can be implemented as a lookup table to completely avoid sensitivity to compiler floating point precision.
 
-The resulting exponential function is shown below, where t is the time in seconds.
+The resulting exponential multiplier function is defined by the function below.
 
 ```python
-m = 10              # resolution multiplier
-cte = ln(1/10)/600  # decay constant: divide by 10 every 600 seconds
+res = 20            # resolution multiplier
+cte = ln(10)/600    # growth constant: multiply hash target by 10 every 600 seconds
 
-f(t) = ceil(m*10*(exp(cte * t)))/m
+f(t) = floor(res*0.1*(exp(cte * t)))/res
 ```
 
-![exponential function plotted with linear axes](exp-lin.png)
-![exponential function plotted with logarithmic y-axis](exp-log.png)
+The difficulty to stake a block is inversely proportional to the hash target.
+The figures below illustrates the decrease in difficulty to stake over the 20 minute interval.
 
-Note that this function has a minimum of 0.1.
+![exponential difficulty multiplier plotted with linear axes](exp-lin.png)
+![exponential difficulty multiplier plotted with logarithmic y-axis](exp-log.png)
+
+Note that the difficulty is limited by the `[0.1, 10]` interval.
 
 ### Staking Future Blocks
-One could argue that this multiplier incentivizes staking blocks in the future, as a future block has a much lower hash target to meet.
+One could argue that this multiplier incentivizes staking blocks in the future, as a future block has a much lower difficulty to stake.
 Therefore, it is important that this multiplier is included in the calculation of the chain trust, so that if a node stakes a block in the future, it will be orphaned by blocks closer to the present.
 
 Staking future blocks is nothing new, the current protocol accepts future blocks in a certain range and doesn't require blocks on the chain to have a strictly rising time.
 Malicious nodes can decide to stake a wider timerange to increase their chances of finding blocks or to organize their blocks to increase their chances on a successful double spend attack.
 
-The exponential target multiplier makes it very hard to stake a block prior or close to the previous block, effectively reducing the timerange an attacker can use to stake.
+The exponential target multiplier makes it very hard to stake a block prior or close to the previous block, effectively increasing the timerange required by an attacker for his block streak.
 On the other hand, the chances of finding a block in the far future is drastically increased.
 Therefore, well behaving nodes should shelve future blocks until their block time is reached, so they won't participate in staking blocks on top of a future block.
 The clocks of well behaving nodes are not expected to drift more than a few seconds, meaning that an honest future block is not expected to be shelved longer than expected network relay times.
 
 Opportunistic nodes might stake on top of both chains.
 To effectively stake on top of a future block, the search interval should be extended even further in the future, meaning that the future chain will very rapidly exceed the maximum allowed clock drift, resulting in all nodes discarding it quickly.
-While the honest chain will easily outperform the future chain's trust that is at best advancing at the edge of the maximum clock drift.
+While the honest chain will easily outperform the future chain's trust that is at best advancing at the edge of the maximum clock drift with less and lower trust blocks.
 
 ##### *Note about Proof-of-Work*
 *When considering Proof-of-Work mining a miner mining a future chain takes a big risk by putting its hash power at stake on the future chain.
@@ -72,7 +75,7 @@ Reinforcing the hybrid nature of the Peercoin blockchain so it becomes feasible 
 The discussion about reinforcing the hybrid nature is outside the scope of this proposal as its benefits are independent of it.*
 
 ### Implementation
-*At the time of writing (05-January-2017), this concept is being implemented parallel to this discussion, to be published and tested on peercoin's testnet soon.*
+*At the time of writing (05-January-2017), this concept is being implemented parallel to this discussion, to be published and tested on peercoin's testnet soon after.*
 
 Code changes to the current retarget algorithm can be easily avoided by not including the multiplier in the block's nBits field.
 The multiplier is fully determined by the time since the last Proof-of-Stake block, therefore the multiplier should be calculated on the fly during the actions listed below:
@@ -88,8 +91,9 @@ Therefore, a hard fork is required for this protocol change.
 ## Advantages
 
 * Proof-of-Stake blocks are staked at a much more stable rate closer to the target rate.
+* To produce multiple blocks in a row, an attacker needs to dominate the network for a larger timespan.
 * The competitive advantage of staking a wide timerange is greatly reduced.
-* Staking multiple non-future blocks in a row is much harder due to the previous point and the reduced advantage of network latency.
+* The influence of network latency on block creation, provided it is an order of magnitude lower than the expected block spacing, is greatly reduced.
 * Chance-to-stake pre-calculation accuracy is reduced, incentivizing more continuous staking.
 * Block timestamps differ less from the actual creation time.
 
