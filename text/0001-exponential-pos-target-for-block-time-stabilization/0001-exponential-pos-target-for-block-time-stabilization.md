@@ -1,6 +1,6 @@
 # Exponential PoS Target for Block Time Stabilization
 
-- Status: proposed
+- Status: rejected
 - Type: enhancement
 - Related components: `protocol`
 - Start Date: 04-January-2017
