@@ -20,13 +20,13 @@ Apart from aligning the coin creation with Proof-of-Work blocks, it does enable 
 - The verb "TO MINT" or "MINTING" refers to the action of trying to create a Block using Proof-of-Stake. "STAKING" is chosen over "MINTING" to avoid confusion with "MINING".
 
 ## Motivation
-Multiple community members have been asking about *cold minting* and *gamifying UTXO optimization*.
+Multiple community members have been asking about *cold minting* and the power of minters to add *free transactions* to their blocks.
 While all this time, a potential solution for both those problems has been sitting in every Proof-of-Stake block, the unused coinbase transaction.
 Although the splitting of the coinstake transaction has been described extensively by mquandalle [[1]](https://gist.github.com/mquandalle/7fe702a595f07f4b0f81), it has never been brought up as a possible alternative for *cold minting*. This RFC focuses on the discussion about splitting the coinstake transaction, the discussion about *multi-signature minting* is part of [RFC-0003](../0003-multisig-minting/0003-multisig-minting.md).
 
 Minters are able to include transaction data without paying the fee when they create a block, limited only by the blocksize.
-By dividing their stake into many small UTXOs for free in a created block, minters can gamify and optimize their block generation rate, giving them an advantage in generating blocks more rapidly.
-When splitting the coinstake transaction, a natural limit of 1 free KB per minted block will provide minters with flexibility to adjust their outputs as desired while preventing spam and gamification of UTXO optimization.
+As a minter of a small number of blocks might not hold many coin at stake, this can be a method by which a bad actor can drastically bloat the chain without much personal loss.
+When splitting the coinstake transaction, a natural limit of 1 free KB per minted block will provide minters with flexibility to adjust their outputs as desired while preventing spam.
 
 ## Detailed Design
 Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction, has the side effect of creating a large amount of small value outputs.
@@ -43,7 +43,7 @@ If the *coin-age consumption* transaction is greater than 1 KB, it will have to 
 
 * Incentive to mint more actively as orphan blocks risk losing their coin-age.
 * Paving the road for other improvements like multi-signature minting.
-* Limiting the power of minters to gamify the UTXO table.
+* Limiting the power of minters to spam the blockchain.
 
 ## Drawbacks
 
