@@ -30,36 +30,34 @@ When splitting the coinstake transaction, a natural limit of 1 free KB per minte
 
 ## Detailed Design
 Proof-of-Stake blocks in the original peercoin protocol carry the coinbase transaction as deadweight.
-Only the coinbase `vin[0]` has been used to carry meta-data (e.g. signaling P2SH support).
+Only the coinbase `vin[0]` has been used to carry meta-data (e.g. signaling P2SH support). The diagram below illustrates the original block layout.
 
 ![original block layout](original.png)
 
-Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction, has the side effect of creating a large amount of small value outputs.
-Because those outputs are very unlikely to mint a new blocks, it should be allowed to join them with a future *coin-age consumption* transaction.
-Because you can only find stake for a single UTXO, the protocol should specify that the *monetary creation* transaction only applies to the first input of the *coin-age consumption* transaction.
-This means that a small loss in compound interest is made on the previous *monetary creation* output, but the loss can be considered negligible compared to the total minting revenue, assuming the holder actively participates in securing the blockchain.
-
-![splitted block layout](split.png)
+Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction, has the side effect of creating small value outputs.
+Because those outputs are very unlikely to mint new blocks, node implementations are adviced to join them with a future *coin-age consumption* transaction.
 
 The minter is awarded a budget of 1 KB for the *coin-age consumption* transaction in order to adjust their UTXO table as they see fit.
 If the *coin-age consumption* transaction is greater than 1 KB, it will have to include the standard fee less 1 KB.
 
+The diagram below illustrates the block layout with a splitted coinstake transaction.
+
+![splitted block layout](split.png)
+
 ## Advantages
 
-* Incentive to mint more actively as orphan blocks risk losing their coin-age.
 * Paving the road for other improvements like multi-signature minting.
 * Limiting the power of minters to spam the blockchain.
 
 ## Drawbacks
 
-* Slight loss of compound interest as the coinbase can only be joined in the next coinstake transaction from the same script (address in case of P2PK).
 * Hard fork
 
 ## Alternatives
 
-The *coin-age consumption* transaction could be forced to pay the standard transaction fee.
+The *coin-age consumption* transaction could be forced to pay the standard transaction fee, which could be recovered in the *monetary creation* transaction.
 As mquandalle [[1]](https://gist.github.com/mquandalle/7fe702a595f07f4b0f81) describes, the *coin-age consumption* transaction could then be included by blocks on a competing fork, effectively destroying it's coin-age without providing a block reward.
-This mechanism would penalize minters building on all forks.
+This mechanism would penalize minters building on all forks, and would incentive to mint more actively as orphan blocks risk losing their coin-age.
 
 
 ## References
