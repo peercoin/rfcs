@@ -29,12 +29,17 @@ As a minter of a small number of blocks might not hold many coin at stake, this 
 When splitting the coinstake transaction, a natural limit of 1 free KB per minted block will provide minters with flexibility to adjust their outputs as desired while preventing spam.
 
 ## Detailed Design
+Proof-of-Stake blocks in the original peercoin protocol carry the coinbase transaction as deadweight.
+Only the coinbase `vin[0]` has been used to carry meta-data (e.g. signaling P2SH support).
+
+![original block layout](original.png)
+
 Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction, has the side effect of creating a large amount of small value outputs.
 Because those outputs are very unlikely to mint a new blocks, it should be allowed to join them with a future *coin-age consumption* transaction.
 Because you can only find stake for a single UTXO, the protocol should specify that the *monetary creation* transaction only applies to the first input of the *coin-age consumption* transaction.
 This means that a small loss in compound interest is made on the previous *monetary creation* output, but the loss can be considered negligible compared to the total minting revenue, assuming the holder actively participates in securing the blockchain.
 
-![splitted transaction layout](split.png)
+![splitted block layout](split.png)
 
 The minter is awarded a budget of 1 KB for the *coin-age consumption* transaction in order to adjust their UTXO table as they see fit.
 If the *coin-age consumption* transaction is greater than 1 KB, it will have to include the standard fee less 1 KB.
