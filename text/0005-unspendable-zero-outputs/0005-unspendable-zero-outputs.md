@@ -25,7 +25,7 @@ This RFC proposes a solution that fixes this memory leak without changing the ru
 ## Motivation
 
 Zero value outputs have many interesting applications on Peercoin, such as 'data carrying outputs (OP_RETURN)', 'free transaction tagging ([P2TH](https://peerassets.github.io/P2TH/))`, 'Peercoin PoW mining to cold storage', ... .
-Data carrying ouputs (OP_RETURN) are unspendable and therefore can safely be pruned from the UTXO table, which allows nodes to free memory that won't be needed anyway.
+Data carrying outputs (OP_RETURN) are unspendable and therefore can safely be pruned from the UTXO table, which allows nodes to free memory that won't be needed anyway.
 But unlike those data outputs, other zero value outputs are spendable, and therefore nodes cannot safely prune those outputs as they would risk forking of when someone spends such an output which they've marked as spent by pruning them.
 
 Transaction `6f224c92c32cc2bd1146b677acca0d823b6c1f258eef820732081b493d51fa13` on the peercoin testnet shows that it is possible to spend a zero output.
@@ -38,7 +38,7 @@ The implementation of a simple soft-fork of the protocol rule to make zero value
 
 If needed this change can be soft-forked without much effect on nodes running older versions of the protocol.
 Old nodes will still produce valid blocks as long as no transaction is included that spends a zero value output.
-Transaction spending zero value outputs are very rare as it increases the transaction size, and therefore it's fee, while not adding any monetairy value to the transaction.
+Transaction spending zero value outputs are very rare as it increases the transaction size, and therefore it's fee, while not adding any monetary value to the transaction.
 
 ## Drawbacks
 
