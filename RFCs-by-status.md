@@ -11,6 +11,7 @@ A list of all RFCs by their current status.
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0004 Remove Transaction Timestamp](./text/0004-remove-transaction-timestamp/0004-remove-transaction-timestamp.md)
  - [#0005 Unspendable Zero Outputs](./text/0005-unspendable-zero-outputs/0005-unspendable-zero-outputs.md)
+ - [#0006 Remove Proof-of-Work Block Signature](./text/0006-remove-pow-block-signature/0006-remove-pow-block-signature.md)
 
 ## Agreed RFCs
 
@@ -23,4 +24,4 @@ A list of all RFCs by their current status.
  - [#0001 Exponential PoS Target for Block Time Stabilization](./text/0001-exponential-pos-target-for-block-time-stabilization/0001-exponential-pos-target-for-block-time-stabilization.md)
 
 
-(Last updated _Mon 20 Nov 20:10:05 CET 2017_ at REV [5ce4853](https://github.com/peercoin/rfcs/commit/5ce4853d3b431dbfa0ea1aa8796e72310bb7c5e3))
+(Last updated _Tue 21 Nov 20:24:55 CET 2017_ at REV [e437b93](https://github.com/peercoin/rfcs/commit/e437b93a54ddbeaa9eb4d0d66489755d6282e154))
