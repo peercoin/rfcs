@@ -12,7 +12,7 @@ A list of all RFCs by their current status.
  - [#0004 Remove Transaction Timestamp](./text/0004-remove-transaction-timestamp/0004-remove-transaction-timestamp.md)
  - [#0005 Unspendable Zero Outputs](./text/0005-unspendable-zero-outputs/0005-unspendable-zero-outputs.md)
  - [#0006 Remove Proof-of-Work Block Signature](./text/0006-remove-pow-block-signature/0006-remove-pow-block-signature.md)
- - [#0007 Reduce Minfee](./text/0007-reduce-minfee/0007-reduce-minfee.md)
+ - [#0007 Round Transaction Fees Up To 0.001](./text/0007-round-transaction-fees-up-to-0.001/0007-round-transaction-fees-up-to-0.001.md)
  - [#0008 Increase OP_RETURN size limit](./text/0008-increase-op-return-size-limit/0008-increase-op-return-size-limit.md)
 
 ## Agreed RFCs
