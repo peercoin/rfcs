@@ -31,8 +31,8 @@ This should get into specifics and corner-cases, and include examples of how the
 
 Requires a hard fork.
 In the future this could result in unwanted attacks for cross-chain atomic swaps (if current standard swap contracts are used).  
-If we remove the 520 byte limit then we must standardize atomic swap contracts to the proposed version here:
-https://gist.github.com/markblundeberg/7a932c98179de2190049f5823907c016
+If we remove the 520 byte limit then we must standardize atomic swap contracts to the [proposed version here](https://gist.github.com/markblundeberg/7a932c98179de2190049f5823907c016).
+
 
 ## Alternatives
 
