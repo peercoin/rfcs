@@ -1,10 +1,10 @@
 # Remove Transaction Timestamp
 
-- Status: proposed
+- Status: agreed
 - Type: bugfix
 - Related components: `protocol`, `multisignature-minting`
 - Start Date: 17-May-2017
-- Discussion: (fill me in with link to RFC discussion - shepherd will complete this) 
+- Discussion: https://github.com/peercoin/rfcs/issues/5 , https://talk.peercoin.net/t/rfc-0004-remove-transaction-timestamp/4867/14
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
 - Author: hrobeers
