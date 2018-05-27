@@ -32,8 +32,8 @@ Adding a simple rule for multi-signature scripts that blocks should be signed by
 
 ## Advantages
 
-* Enabling multiple-signature addresses to mint.
-* Allowing users to only access their wallets once every maturation period (30 days in the current protocol) instead of continuously in order to continue to mint continuously.
+* Enabling multiple-signature addresses to mint. While the coinstake would need to be signed by the required number of signatures, the block would only need to be signed by any one member of the multi-sig regardless of the number of signatures required for a normal transaction. 
+* Allowing users to only access their wallets once every maturation period (30 days in the current protocol) while still minting continuously, instead of having to give continuous wallet access to their clients.
 * Allowing mint pools to exist, though this will require third party infrastructure to navigate the periodic minting process.
 
 ## Drawbacks
