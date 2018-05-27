@@ -8,25 +8,23 @@
 - Author: hrobeers
 
 ## Summary
-Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction allows multiple improvements on peercoin's protocol.
-Apart from aligning the coin creation with Proof-of-Work blocks, it does enable to following changes:
+Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction tunes the Peercoin protocol to more closely align with Bitcoin's format.
+By putting the block reward back into the coinbase transaction, the coinstake transaction can be signed in advance while the coinbase transaction is signed at the time of block creation.
 
-* Multi-signature minting, as described in [RFC-0003](../0003-multisig-minting/0003-multisig-minting.md)
-* Alignment of the transaction format with bitcoin by moving the coinstake timestamp to the coinbase input (RFC to be created).
-* Provides easily manageable limitations on the power of minters to make free transactions.
+This RFC depends on [RFC-0004](../0004-remove-transaction-timestamp/0004-remove-transaction-timestamp.md) and enables [RFC-0003](../0003-multisig-minting/0003-multisig-minting.md)
 
 ## Conventions
 - The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 - The verb "TO MINT" or "MINTING" refers to the action of trying to create a Block using Proof-of-Stake. "STAKING" is chosen over "MINTING" to avoid confusion with "MINING".
 
 ## Motivation
-Multiple community members have been asking about *cold minting* and the power of minters to add *free transactions* to their blocks.
-While all this time, a potential solution for both those problems has been sitting in every Proof-of-Stake block, the unused coinbase transaction.
-Although the splitting of the coinstake transaction has been described extensively by mquandalle [[1]](https://gist.github.com/mquandalle/7fe702a595f07f4b0f81), it has never been brought up as a possible alternative for *cold minting*. This RFC focuses on the discussion about splitting the coinstake transaction, the discussion about *multi-signature minting* is part of [RFC-0003](../0003-multisig-minting/0003-multisig-minting.md).
+The Peercoin community has sought for a solution to *cold minting* that does not severely complicate the process of adopting code from the Bitcoin ecosystem.
+While it is not entirely clear what features constitute 'cold minting', this proposal outlines a particularly protocol-sensitive path to achieve *air gapped minting*, whereby the key used at the time of minting is not sufficient to also move the coins.
 
-Minters are able to include transaction data without paying the fee when they create a block, limited only by the blocksize.
-As a minter of a small number of blocks might not hold many coin at stake, this can be a method by which a bad actor can drastically bloat the chain without much personal loss.
-When splitting the coinstake transaction, a natural limit of 1 free KB per minted block will provide minters with flexibility to adjust their outputs as desired while preventing spam.
+Although the splitting of the coinstake transaction has been described extensively by mquandalle [[1]](https://gist.github.com/mquandalle/7fe702a595f07f4b0f81), it has never been brought up as a possible alternative for *cold minting*.
+While the entire mechanisms relies on multiple RFCs, this RFC focuses on the discussion about splitting the coinstake transaction, as it is the most controversial part of the proposal.
+
+As a historical note, discussion of this RFC shed light on the powers of the minter to create *free transactions*, which can be fixed independently of this proposal by limiting the size of the coinbase transaction.
 
 ## Detailed Design
 Proof-of-Stake blocks in the original peercoin protocol carry the coinbase transaction as deadweight.
@@ -37,8 +35,9 @@ Only the coinbase `vin[0]` has been used to carry meta-data (e.g. signaling P2SH
 Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction, has the side effect of creating small value outputs.
 Because those outputs are very unlikely to mint new blocks, node implementations are adviced to join them with a future *coin-age consumption* transaction.
 
-The minter is awarded a budget of 1 KB for the *coin-age consumption* transaction in order to adjust their UTXO table as they see fit.
-If the *coin-age consumption* transaction is greater than 1 KB, it will have to include the standard fee less 1 KB.
+The minter is currently awarded a budget of 1 KB for the coinstake transaction, and will continue to have this power.
+While the coinbase transaction does not currently have this limitation, the *monetary creation* transaction will also be limited to 1 KB.
+If either transaction is greater than 1 KB, it will have to include the standard fee less 1 KB.
 
 The diagram below illustrates the block layout with a splitted coinstake transaction.
 
@@ -46,12 +45,15 @@ The diagram below illustrates the block layout with a splitted coinstake transac
 
 ## Advantages
 
-* Paving the road for other improvements like multi-signature minting.
-* Limiting the power of minters to spam the blockchain.
+* Required for multi-signature minting, as described in [RFC-0003](../0003-multisig-minting/0003-multisig-minting.md)
+* While there is no known advantage for aligning the transaction structure with Bitcoin's, it should be taken as a step toward simplification, which can foster innovation.
 
 ## Drawbacks
 
-* Hard fork
+* Dependency on [RFC-0004](../0004-remove-transaction-timestamp/0004-remove-transaction-timestamp.md).
+* Hard fork of protocol rules.
+* Previous transaction formats will need to be supported beyond the hard fork, until all transaction creation software switches over.
+* Previous block formats will need to be supported by full nodes as long as the chain record persists.
 
 ## Alternatives
 
