@@ -13,6 +13,7 @@ A list of all RFCs by their current status.
  - [#0006 Remove Proof-of-Work Block Signature](./text/0006-remove-pow-block-signature/0006-remove-pow-block-signature.md)
  - [#0007 Round Transaction Fees Up To 0.001](./text/0007-round-transaction-fees-up-to-0.001/0007-round-transaction-fees-up-to-0.001.md)
  - [#0008 Increase OP_RETURN size limit](./text/0008-increase-op-return-size-limit/0008-increase-op-return-size-limit.md)
+ - [#0010 MIN_FEE as standardness rule](./text/0010-min-fee-as-standardness-rule/0010-min-fee-as-standardness-rule.md)
 
 ## Agreed RFCs
 
