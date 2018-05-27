@@ -32,14 +32,15 @@ Adding a simple rule for multi-signature scripts that blocks should be signed by
 
 ## Advantages
 
-* More secure minting.
-* Permanent outsourcing of minting is not possible, every mint needs to be pre-signed by the holder.
-* Minimal protocol changes.
+* Enabling multiple-signature addresses to mint.
+* Allowing users to only access their wallets once every maturation period (30 days in the current protocol) instead of continuously in order to continue to mint continuously.
+* Allowing mint pools to exist, though this will require third party infrastructure to navigate the periodic minting process.
 
 ## Drawbacks
 
-* Hard fork
+* Dependency on other RFCs with drawbacks.  Other than the minimal development time required, if those other RFCs are implemented, this RFC should be too.
+* Mint pools have existential governance issues, similar to mining pools, in which much of the blockchain governance is transfered to the pool rather than the coin holder.  While this proposal is expected to increase minter participation, it is questionable about whether that participation is truly 'distributed'.
 
 ## Alternatives
 
-TODO
+* [Cold Storage Proposals](https://talk.peercoin.net/t/cold-storage-minting-proposal/2336), one of the highlights of which is Sigmike's multi-sig proposal in which there would be a special kind of multi-sig address with two private keys, one for transacting and one for minting. It is worth noting that these past proposals are compatible with the current proposed changes.
