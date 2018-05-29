@@ -24,7 +24,7 @@ While it is not entirely clear what features constitute 'cold minting', this pro
 Although the splitting of the coinstake transaction has been described extensively by mquandalle [[1]](https://gist.github.com/mquandalle/7fe702a595f07f4b0f81), it has never been brought up as a possible alternative for *cold minting*.
 While the entire mechanisms relies on multiple RFCs, this RFC focuses on the discussion about splitting the coinstake transaction, as it is the most controversial part of the proposal.
 
-As a historical note, discussion of this RFC shed light on the powers of the minter to create *free transactions*, which can be fixed independently of this proposal by limiting the size of the coinbase transaction.
+As a historical note, discussion of this RFC shed light on the powers of the minter to create *free transactions*, which can be fixed independently of this proposal by limiting the powers of the coinbase transaction.
 
 ## Detailed Design
 Proof-of-Stake blocks in the original peercoin protocol carry the coinbase transaction as deadweight.
@@ -35,9 +35,7 @@ Only the coinbase `vin[0]` has been used to carry meta-data (e.g. signaling P2SH
 Splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction, has the side effect of creating small value outputs.
 Because those outputs are very unlikely to mint new blocks, node implementations are adviced to join them with a future *coin-age consumption* transaction.
 
-The minter is currently awarded a budget of 1 KB for the coinstake transaction, and will continue to have this power.
-While the coinbase transaction does not currently have this limitation, the *monetary creation* transaction will also be limited to 1 KB.
-If either transaction is greater than 1 KB, it will have to include the standard fee less 1 KB.
+The minter is currently awarded a budget of 1 KB for the coinstake transaction, and will continue to have this power.  If a *coin-age consumption* transaction is greater than 1 KB, it will have to include the standard fee less 1 KB.
 
 The diagram below illustrates the block layout with a splitted coinstake transaction.
 
