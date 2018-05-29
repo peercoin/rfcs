@@ -39,7 +39,6 @@ Adding a simple rule for multi-signature scripts that blocks should be signed by
 ## Drawbacks
 
 * Dependency on other RFCs with drawbacks.
-* The convention of using just one of the multi-sig keys to sign the block must be changed if alternatives are prefered in the future.
 * Mint pools have existential governance issues, similar to mining pools, in which much of the blockchain governance is transfered to the pool rather than the coin holder.  While this proposal is expected to increase minter participation, it is questionable about whether that participation is truly 'distributed'.
 
 ## Alternatives
