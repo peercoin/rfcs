@@ -56,14 +56,19 @@ For the removal of the transaction timestamp, the following changes should be co
 - ppcoin flag for rawtransaction RPC interface compatibility (whether to include transaction timestamp field)
 - JSON RPC methods to determine transaction timestamps based on the block timestamp. (backwards compatibility)
 
+## Advantages
+
+* Prevents transacting without burning coinage.
+* Third party tools from other cryptocurrency projects are easier to adapt.
+* Allows users to not include timestamps in their transactions, freeing up space or lowering the fee users must pay.
+* Required for [RFC-0002](../0002-split-coinstake-transaction/0002-split-coinstake-transaction.md) and [RFC-0003](../0003-multisig-minting/0003-multisig-minting.md) 
+
 ## Drawbacks
 
-Why should we *not* do this?
+* Hardfork of protocol rules to refer to the block timestamp instead of the transaction timestamp in all instances.
+* Full nodes will need to support both timestamp conventions in order to parse both new and historical transaction IDs.
 
 ## Alternatives
 
-What other designs have been considered? What is the impact of not doing this?
-
-## Unresolved questions
-
-What parts of the design are still to be done?
+* Transaction timestamps could be restricted based on average past block timestamps or a similar criteria.  Such an implementation would likely be less intuitive and less convenient for the user than simply ignoring the transaction timestamp.
+* After the majority of transaction creation software has stopped including timestamps, transaction timestamps could be banned entirely in an effort to simplify the protocol.
