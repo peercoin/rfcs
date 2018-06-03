@@ -24,7 +24,7 @@ While it is not entirely clear what features constitute 'cold minting', this pro
 Although the splitting of the coinstake transaction has been described extensively by mquandalle [[1]](https://gist.github.com/mquandalle/7fe702a595f07f4b0f81), it has never been brought up as a possible alternative for *cold minting*.
 While the entire mechanisms relies on multiple RFCs, this RFC focuses on the discussion about splitting the coinstake transaction, as it is the most controversial part of the proposal.
 
-As a historical note, discussion of this RFC shed light on the powers of the minter to create *free transactions*, which can be fixed independently of this proposal by limiting the powers of the coinbase transaction.
+As a historical note, discussion of this RFC shed light on the powers of the minter to create *free outputs* in the coinbase transaction, which can be fixed independently of this proposal by limiting the powers of the coinbase transaction.
 
 ## Detailed Design
 Proof-of-Stake blocks in the original peercoin protocol carry the coinbase transaction as deadweight.
@@ -44,14 +44,12 @@ The diagram below illustrates the block layout with a splitted coinstake transac
 ## Advantages
 
 * Required for multi-signature minting, as described in [RFC-0003](../0003-multisig-minting/0003-multisig-minting.md)
-* While there is no known advantage for aligning the transaction structure with Bitcoin's, it should be taken as a step toward simplification, which can foster innovation.
+* Tools that watch the coinbase transaction on Proof of Work chains like Bitcoin will be easier to adapt to Peercoin.  With this reference, this RFC should be taken as a step toward simplification, which can foster innovation.
 
 ## Drawbacks
 
 * Dependency on [RFC-0004](../0004-remove-transaction-timestamp/0004-remove-transaction-timestamp.md).
 * Hard fork of protocol rules.
-* Previous transaction formats will need to be supported beyond the hard fork, until all transaction creation software switches over.
-* Previous block formats will need to be supported by full nodes as long as the chain record persists.
 
 ## Alternatives
 
