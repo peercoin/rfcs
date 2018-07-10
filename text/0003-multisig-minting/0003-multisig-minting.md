@@ -10,6 +10,7 @@
 ## Summary
 An advantage of splitting the coinstake transaction into a *monetary creation* and a *coin-age consumption* transaction, as described in [RFC-0002](../0002-split-coinstake-transaction/0002-split-coinstake-transaction.md), allows the *coin-age consumption* transaction to be pre-signed off-line.
 In combination with multi-signature scripts, this could serve as an alternative to *cold minting* by allowing for *air-gapped minting*.
+If a *cold minting* protocol is implemented, the conventions proposed could be used to implement secure socialization of pool rewards in a minting pool.
 
 ## Conventions
 - The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
@@ -33,6 +34,7 @@ With implementation of the dependent RFCs, the minter is free to modify the time
 * Enabling multisignature addresses to mint. While the coinstake would need to be signed by the required number of signatures, the block would only need to be signed by any one member of the multi-sig regardless of the number of signatures required for a normal transaction. 
 * Allowing users to only access their wallets once every maturation period (30 days in the current protocol) while still minting continuously, instead of having to give continuous wallet access to their clients.
 * Allowing mint pools to exist, though this will require third party infrastructure to navigate the periodic minting process.
+* Allowing for socialization of mint rewards by giving power to the minter to determine where to send the reward.
 
 ## Drawbacks
 
@@ -46,26 +48,5 @@ With implementation of the dependent RFCs, the minter is free to modify the time
 ## Alternatives
 
 * [Cold Storage Minting Proposals](https://talk.peercoin.net/t/cold-storage-minting-proposal/2336), one of the highlights of which is Sigmike's cold minting proposal in which there would be a special kind of multisignature address with two private keys, one for transacting and one for minting. It is worth noting that these past proposals are compatible with the current proposed changes.
-
-## Synergy with Cold Minting
-There are three roles played by the Peercoin wallet: 1. holding the coins, 2. moving the coins, and 3. minting the coins.
-*Cold minting*, once developed, would directly allow for the separation of roles 2 and 3.
-Multisignature minting can be leveraged to provide further separation of 1 and 3.
-We can fill the roles with names: 1. cold wallet, 2. hot wallet, 3. pool operator.
-
-As an example, we will use Sigmike's *mint key* and *move key* proposal and a 2-of-6 address, such that there are 3 *mint keys* and 3 *move keys*.
-The cold wallet will consist of 2 *move keys*.
-The hot wallet will consist of 1 *move key* and 2 *mint keys*.
-The pool operator will be given 1 *mint key*.
-The hot wallet fully signs coinstake transactions every 30 days and gives them to the pool operator to build blocks, such that they can sign the coinbase transaction using the third key.
-The coins cannot be moved without at least one cold wallet key.
-The benefit of this arrangement is that switching pool operators does not require moving the coins or accessing the cold wallet.
-Indeed, the *mint key* given to the pool operator has so little power that it can be given out freely to pool operators.
-
-When switching to a new pool without moving the coins, the old pool operator would still have signed coinstake transactions that it can mint.
-By providing the new pool operator with signed coinstake transactions from the same outputs, the new pool operator would have the power to cause blocks submitted by the old pool operator to be banned.
-
-This is to be contrasted with a 1-of-2 address with a *mint key* held by a pool operator or hot wallet and a *move key* held in cold storage, which is the quintessential *cold minting* and does not require splitting the coinstake at all.
-However, when switching to a different pool operator or when the hot wallet is compromised, the coins must be moved and the coinage burned to prevent the unwanted use of that coinage.
-The 2-of-4+ multisignature address with *cold minting* allows for varying degrees of security, depending on how many of the keys are cold or hot (the hot wallet and the pool operator need at least one *mint key* each, and there have to be at least 2 *move keys*).
-The driving benefit of a setup like this is the flexibility to change pool operators without accessing cold keys or consuming coinage.
+* The convention could be chosen that the mint reward must be sent to the minting address when multisignature minting. However, by giving the minter the freedom to choose the destination of the mint reward, we allow for socialization of rewards in a mint pool setting.
+* Cold minting and multisig minting can be combined to provide unparalleled security and utility.  To illustrate, I will use the concept of mint keys and an address with 1 move key and 2-of-3 mint keys.  The 1 move key is cold storage and kept off-line at all times. The hot wallet will hold 2 of the mint keys and will periodically sign coinstake transactions once every 30 days (such that even the hot wallet can be airgapped). The final mint key is given to the pool operator, who has the authority to take the mint reward and socialize it with others in the pool. Combining these two methods and developing the user interface around them may drastically alter the way the average user mints, without affecting the current single-signature method.
