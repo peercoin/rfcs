@@ -1,10 +1,10 @@
 # Round Transaction Fees Up To 0.001
 
-- Status: proposed
+- Status: accepted
 - Type: enhancement
 - Related components: `protocol`
 - Start Date: 16-May-2018
-- Discussion: (fill me in with link to RFC discussion - shepherd will complete this)
+- Discussion: https://github.com/peercoin/rfcs/issues/8
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
 - Author: backpacker69
