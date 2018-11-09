@@ -1,4 +1,4 @@
-# Title-cased Name of the Feature
+# Proof-of-Stake inflation adjustment
 
 - Status: proposed
 - Type: protocol adjustment
@@ -29,14 +29,15 @@ As such, it is desirable to increase the PoS block reward until it approaches a 
 
 ## Detailed design
 
-The function GetProofOfStakeReward in main.cpp of the Peercoin code contains the formula for calculating the PoS block reward.
+The function `GetProofOfStakeReward` in main.cpp of the Peercoin code contains the formula for calculating the PoS block reward.
 While there may be other locations in the code where this value is referenced or checked (for example incomming blocks) we will limit the design discussion to a simple scaling of this formula.
 The scaling factor thereby multiplies the block reward by a value, which we shall call 'nInflationAdjustment'.
 We will define nInflationAdjustment to rely on nMoneySupply and a factor we shall call 'nAnnualPoSRewards'.
 It will also rely on two parameters, 'nPoSInflationTarget' which we will set at 1%, and 'nPoSInflationMaximum' which we will set at 5%.
-nAnnualPosRewards is the integrated sum of all PoS block rewards in the last 365 days (by timestamp).  
-int64 nInflationAdjustment = 100 * Minimum[nPoSInflationTarget * nMoneySupply/nAnnualPoSRewards , nPoSInflationMaximum]  
-int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;  
+`nAnnualPosRewards` is the integrated sum of all PoS block rewards in the last 365 days (by timestamp).
+
+> int64 nInflationAdjustment = 100 * Minimum[nPoSInflationTarget * nMoneySupply/nAnnualPoSRewards , nPoSInflationMaximum]  
+> int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;  
 
 ## Drawbacks
 
@@ -51,20 +52,23 @@ By increasing the PoS reward, we increase the risk associated with such attacks.
 
 *Timing Attacks*
 Minting before finding a valid PoS block is not possible, however a minter may always withhold blocks in an attempt to attain the best reward.
-There are two variables that contribute to nInflationAdjustment that can be timed.  
-The first, nMoneySupply, is so insensitive to block-by-block changes that we will ignore its affects as a concern.
+There are two variables that contribute to `nInflationAdjustment` that can be timed.  
+The first, `nMoneySupply`, is so insensitive to block-by-block changes that we will ignore its affects as a concern.
 This constitutes a generic statement that Inflation Adjustments with a first order dependence on nMoneySupply alone are not susceptible to timing attacks.
-The second variable that can be timed is nAnnualPoSRewards, where we will focus for the remainder of this drawback.
+The second variable that can be timed is `nAnnualPoSRewards`, where we will focus for the remainder of this drawback.
 
 To instruct, we shall observe three extreme cases:
-1. Immediately following the implementation, due to the current low level of PoS reward, nInflationAdjustment = nPoSInflationMaximum
+1. Immediately following the implementation, due to the current low level of PoS reward, nInflationAdjustment = nPoSInflationMaximum.
+
 In this situation, the minter is receiving a 5x increase of their PoS reward, therefore this situation is ideal.
-The value of nInflationAdjustment will not fluctuate from the maximum during this stage.  
+The value of `nInflationAdjustment` will not fluctuate from the maximum during this stage.
+
 2. If we assume that a consistent fraction of minters participate reliably, then after some time nInflationAdjustment will approach a somewhat stable value.
-In this situation, nInflationAdjustment = 1/(fraction of minters participating).
-The value of nInflationAdjustment will fluctuate regularly during this stage.  
+In this situation, `nInflationAdjustment = 1/(fraction of minters participating)`.
+The value of `nInflationAdjustment` will fluctuate regularly during this stage.
+
 3. Suddenly, every single minter begins minting consistently and continuously for the rest of time.
-In this situation, nInflationAdjustment will quickly sink to 1 and remain there.
+In this situation, `nInflationAdjustment` will quickly sink to 1 and remain there.
 The value of nInflationAdjustment will fluctuate minimally, both above and below 1, due to statistical aberration and random coin distribution.
 
 When making a Timing Attack, the attacker will seek to move their block rewards closer to case 1.
@@ -75,13 +79,13 @@ Therefore, it is nearly always in the Timing Attacker's best interest to release
 
 *Timestamp Attack*
 A minter has a time window of 2 hours to place their block on the chain.
-If the minter finds two blocks within that time window, the later block would always have an equal or higher nAnnualPosRewards.
+If the minter finds two blocks within that time window, the later block would always have an equal or higher `nAnnualPosRewards`.
 This encourages minters to use later timestamps, which is a mild but undesireable side effect.
 
 ## Alternatives
 
 *Year by Block*
-In order to invalidate the Timestamp Attack, nAnnualPoSRewards could sum over a number of blocks rather than a unit of time.
+In order to invalidate the Timestamp Attack, `nAnnualPoSRewards` could sum over a number of blocks rather than a unit of time.
 However, this alternative is more susceptible to the Stake Grind attack, wherein the attacker will intentionally starve the Inflation rate using many low value coinstakes, then mint rapidly with high value coinstakes at maximum inflation.
 This is because coindaysdestroyed/block is sensitive to the Stake Grind while coindaysdestroyed/year is not. 
 
