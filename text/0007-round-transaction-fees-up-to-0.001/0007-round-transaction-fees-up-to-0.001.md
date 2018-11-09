@@ -1,6 +1,6 @@
 # Round Transaction Fees Up To 0.001
 
-- Status: accepted
+- Status: agreed
 - Type: enhancement
 - Related components: `protocol`
 - Start Date: 16-May-2018
