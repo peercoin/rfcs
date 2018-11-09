@@ -1,6 +1,6 @@
 # Increase OP_RETURN size limit
 
-- Status: accepted 
+- Status: agreed 
 - Type: enhancement
 - Related components: protocol
 - Start Date: 16-05-2018
