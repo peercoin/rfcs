@@ -84,9 +84,11 @@ However, it is very difficult to guess how many coins will be used to stake in t
 Therefore, it is nearly always in the Timing Attacker's best interest to release their PoS block immediately in order to attain the highest compounding interest. 
 
 *Timestamp Attack*  
-A minter has a time window of 2 hours to place their block on the chain.
-If the minter finds two blocks within that time window, the later block would always have an equal or higher `nAnnualPosRewards`.
-This encourages minters to use later timestamps, which is a mild but undesireable side effect.
+A minter has 2 hours to place a block on the chain.
+A minter can also somewhat reliably predict the window for minting an output as much 30 days in advance.
+If the minter finds two blocks within the shorter time window, the later block will always have an equal or higher `nAnnualPosRewards`.
+If the minter finds two blocks within the longer time window, they can choose to withhold their first block as a Timing Attack with a high probability of success.
+Both of these forms encourage minters to use later timestamps, which is a mild but undesireable side effect.
 
 ## Alternatives
 
