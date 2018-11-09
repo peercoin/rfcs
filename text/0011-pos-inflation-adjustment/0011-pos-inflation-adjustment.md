@@ -34,9 +34,9 @@ While there may be other locations in the code where this value is referenced or
 The scaling factor thereby multiplies the block reward by a value, which we shall call 'nInflationAdjustment'.
 We will define nInflationAdjustment to rely on nMoneySupply and a factor we shall call 'nAnnualPoSRewards'.
 It will also rely on two parameters, 'nPoSInflationTarget' which we will set at 1%, and 'nPoSInflationMaximum' which we will set at 5%.
-nAnnualPosRewards is the integrated sum of all PoS block rewards in the last 365 days (by timestamp).
-int64 nInflationAdjustment = 100 * Minimum[nPoSInflationTarget * nMoneySupply/nAnnualPoSRewards , nPoSInflationMaximum]
-int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;
+nAnnualPosRewards is the integrated sum of all PoS block rewards in the last 365 days (by timestamp).  
+int64 nInflationAdjustment = 100 * Minimum[nPoSInflationTarget * nMoneySupply/nAnnualPoSRewards , nPoSInflationMaximum]  
+int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;  
 
 ## Drawbacks
 
@@ -59,10 +59,10 @@ The second variable that can be timed is nAnnualPoSRewards, where we will focus 
 To instruct, we shall observe three extreme cases:
 1. Immediately following the implementation, due to the current low level of PoS reward, nInflationAdjustment = nPoSInflationMaximum
 In this situation, the minter is receiving a 5x increase of their PoS reward, therefore this situation is ideal.
-The value of nInflationAdjustment will not fluctuate from the maximum during this stage.
+The value of nInflationAdjustment will not fluctuate from the maximum during this stage.  
 2. If we assume that a consistent fraction of minters participate reliably, then after some time nInflationAdjustment will approach a somewhat stable value.
 In this situation, nInflationAdjustment = 1/(fraction of minters participating).
-The value of nInflationAdjustment will fluctuate regularly during this stage.
+The value of nInflationAdjustment will fluctuate regularly during this stage.  
 3. Suddenly, every single minter begins minting consistently and continuously for the rest of time.
 In this situation, nInflationAdjustment will quickly sink to 1 and remain there.
 The value of nInflationAdjustment will fluctuate minimally, both above and below 1, due to statistical aberration and random coin distribution.
