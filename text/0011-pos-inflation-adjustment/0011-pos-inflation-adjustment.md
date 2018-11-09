@@ -35,10 +35,15 @@ The scaling factor thereby multiplies the block reward by a value, which we shal
 We will define nInflationAdjustment to rely on nMoneySupply and a factor we shall call 'nAnnualPoSRewards'.
 It will also rely on two parameters, 'nPoSInflationTarget' which we will set at 1%, and 'nPoSInflationMaximum' which we will set at 5%.
 nAnnualPosRewards is the integrated sum of all PoS block rewards in the last 365 days (by timestamp).
-int64 nInflationAdjustment = Minimum[nPoSInflationTarget * nMoneySupply/nAnnualPoSRewards , nPoSInflationMaximum]
+int64 nInflationAdjustment = 100 * Minimum[nPoSInflationTarget * nMoneySupply/nAnnualPoSRewards , nPoSInflationMaximum]
 int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;
 
 ## Drawbacks
+
+*Increased Load on Nodes*
+nAnnualPoSRewards is a sum over PoS rewards in the last year.
+Creating and validating blocks will require a search through a substantial number of most recent block (~50,000) PoS rewards which increases the load on both minting and nonminting nodes.
+A node with recent blocks still in memory, such as during a fresh download of the blockchain, may be able to avoid the increased load.
 
 *Exacerbated Protocol Attacks*
 N@S and Stake Grind attacks are currently considered impractical because the reward to relative cost is very small, being limited only to a small amount of compounding interest.
