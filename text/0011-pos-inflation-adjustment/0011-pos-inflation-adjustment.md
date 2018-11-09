@@ -4,7 +4,7 @@
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 08-11-2018
-- Discussion: (fill me in with link to RFC discussion - shepherd will complete this) 
+- Discussion: https://github.com/peercoin/rfcs/issues/19
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
 - Author: Nagalim
@@ -72,7 +72,7 @@ In this situation, `nInflationAdjustment` will quickly sink to 1 and remain ther
 The value of nInflationAdjustment will fluctuate minimally, both above and below 1, due to statistical aberration and random coin distribution.
 
 When making a Timing Attack, the attacker will seek to move their block rewards closer to case 1.
-When choosing to withhold PoS blocks, the attacker is ultimately betting that nAnnualPoSRewards will decrease with time.
+When choosing to withhold PoS blocks, the attacker is ultimately betting that `nAnnualPoSRewards` will decrease with time.
 This may be a reliable bet during specific moments when year old blocks with a large PoS reward age out.
 However, it is very difficult to guess how many coins will be used to stake in the near future.
 Therefore, it is nearly always in the Timing Attacker's best interest to release their PoS block immediately in order to attain the highest compounding interest. 
