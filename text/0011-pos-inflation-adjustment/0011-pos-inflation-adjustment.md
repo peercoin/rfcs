@@ -33,8 +33,8 @@ The function `GetProofOfStakeReward` in main.cpp of the Peercoin code contains t
 While there may be other locations in the code where this value is referenced or checked (for example incomming blocks) we will limit the design discussion to a simple scaling of this formula.  
 The scaling factor thereby multiplies the block reward by a value, which we shall call `nInflationAdjustment`.  
 We will define `nInflationAdjustment` to rely on nMoneySupply and a factor we shall call `nAnnualPoSRewards`.  
-It will also rely on three parameters, the first of which, `nPoSInflationTarget`, we will set at 0.01.
-`nAdjustmentMaximum` we will set at 5 and `nAdjustmentMinimum` we will set at 0.1.
+It will also rely on three parameters, the first of which, `nPoSInflationTarget`, we will set at 0.01.  
+`nAdjustmentMaximum` we will set at 5 and `nAdjustmentMinimum` we will set at 0.1.  
 `nAnnualPosRewards` is the integrated sum of all PoS block rewards in the last 365 days (by timestamp).
 
 First, we find the adjustment to the block reward as a number near 1.
@@ -65,7 +65,7 @@ This constitutes a generic statement that Inflation Adjustments with a first ord
 The second variable that can be timed is `nAnnualPoSRewards`, where we will focus for the remainder of this drawback.
 
 To instruct, we shall observe three extreme cases:  
-1. Immediately following the implementation, due to the current low level of PoS reward, nInflationAdjustment = nPoSInflationMaximum.
+1. Immediately following the implementation, due to the current low level of PoS reward: `nInflationAdjustment = nPoSInflationMaximum`.
 In this situation, the minter is receiving a 5x increase of their PoS reward, therefore this situation is ideal.
 The value of `nInflationAdjustment` will not fluctuate from the maximum during this stage.
 
@@ -75,7 +75,7 @@ The value of `nInflationAdjustment` will fluctuate regularly during this stage.
 
 3. Suddenly, every single minter begins minting consistently and continuously for the rest of time.
 In this situation, `nInflationAdjustment` will quickly sink to 1 and remain there.
-The value of nInflationAdjustment will fluctuate minimally, both above and below 1, due to statistical aberration and random coin distribution.
+The value of `nInflationAdjustment` will fluctuate minimally, both above and below 1, due to statistical aberration and random coin distribution.
 
 When making a Timing Attack, the attacker will seek to move their block rewards closer to case 1.
 When choosing to withhold PoS blocks, the attacker is ultimately betting that `nAnnualPoSRewards` will decrease with time.
