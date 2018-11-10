@@ -61,7 +61,7 @@ By increasing the PoS reward, we increase the risk associated with such attacks.
 Minting before finding a valid PoS block is not possible, however a minter may always withhold blocks in an attempt to attain the best reward.
 There are two variables that contribute to `nInflationAdjustment` that can be timed.  
 The first, `nMoneySupply`, is so insensitive to block-by-block changes that we will ignore its affects as a concern.
-This constitutes a generic statement that Inflation Adjustments with a first order dependence on nMoneySupply alone are not susceptible to timing attacks.
+This constitutes a generic statement that any `nInflationAdjustment` with a first order dependence on `nMoneySupply` alone is not susceptible to timing attacks.
 The second variable that can be timed is `nAnnualPoSRewards`, where we will focus for the remainder of this drawback.
 
 To instruct, we shall observe three extreme cases:  
@@ -86,7 +86,7 @@ Therefore, it is nearly always in the Timing Attacker's best interest to release
 *Timestamp Attack*  
 A minter has 2 hours to place a block on the chain.
 A minter can also somewhat reliably predict the window for minting an output as much 30 days in advance.
-If the minter finds two blocks within the shorter time window, the later block will always have an equal or higher `nAnnualPosRewards`.
+If the minter finds two blocks within the shorter time window, the later block will always have an equal or lower `nAnnualPosRewards`.
 If the minter finds two blocks within the longer time window, they can choose to withhold their first block as a Timing Attack with a high probability of success.
 Both of these forms encourage minters to use later timestamps, which is a mild but undesireable side effect.
 
