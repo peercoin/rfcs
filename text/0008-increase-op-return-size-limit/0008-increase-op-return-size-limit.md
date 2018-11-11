@@ -1,10 +1,10 @@
 # Increase OP_RETURN size limit
 
-- Status: agreed 
+- Status: implemented
 - Type: enhancement
 - Related components: protocol
 - Start Date: 16-05-2018
-- Discussion: https://github.com/peercoin/rfcs/issues/10 
+- Discussion: https://github.com/peercoin/rfcs/issues/10
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
 - Author: backpacker69
