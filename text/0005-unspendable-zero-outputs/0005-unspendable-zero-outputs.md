@@ -4,7 +4,8 @@
 - Type: bugfix (memory leak)
 - Related components: `protocol`
 - Start Date: 20-November-2017
-- Discussion: https://github.com/peercoin/rfcs/issues/6- Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
+- Discussion: https://github.com/peercoin/rfcs/issues/6
+- Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
 - Author: hrobeers
 
