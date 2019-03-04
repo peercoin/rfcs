@@ -46,6 +46,15 @@ Bound the number with minimums and maximums.  The adjustment maximum should be c
 nSubsidy can be modified directly using nInflationAdjustment.  
 > int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;  
 
+*Recursive Calculation of nSubsidy*  
+If a very large output is minted, it could get an unfair portion of the annual reward before `nInflationAdjustment` is able to compensate for it.
+In order to avoid this, the calculation of `nAnnualPoSRewards` should include the block that is being minted.
+This requires a recursive calculation, such that `nSubsidy` is first calculated using the rewards of the past 365 days.
+Next, `nSubsidy` is calculated again with this previous calculation of `nSubsidy` added in to `nAnnualPoSRewards`.
+Further recursive calculation could allow a more accurate convergence on the appropriate `nSubsidy`, but for simplicity it is sufficient to maintain a recursion limit of 1.
+The result will underestimate `nSubsidy`, thereby discouraging large single output minting.
+Single outputs that do not represent a significant portion of `nMoneySupply` will not be affected significantly.
+
 ## Drawbacks
 
 *Increased Load on Nodes*  
@@ -79,6 +88,14 @@ When choosing to withhold PoS blocks, the attacker is ultimately betting that `n
 This may be a reliable bet during specific moments when year old blocks with a large PoS reward age out.
 However, it is very difficult to guess how many coins will be used to stake in the near future.
 Therefore, it is nearly always in the Timing Attacker's best interest to release their PoS block immediately in order to attain the highest compounding interest. 
+
+*Seasonal Timing Attack*  
+Some minters greatly limit their minting intervals in order to avoid security vulnerabilities associated with having a node online.
+Let us assume that a 'seasonal minter' of this fashion will only mint, for example, twice a year.
+This minter is incentivized to analyze the seasonal fluctuations of `nInflationAdjustment` and pick the two times during the year when minter participation is lowest.
+This type of minting will act to dampen the aforementioned seasonal fluctuations of `nInflationAdjustment`, which will help to reduce the standard deviation of the PoS difficulty from the mean.
+As the PoS model of security is only as strong as its moment of lowest PoS difficulty (not the mean), this type of behavior (that of actively attempting to mint during periods of low minter participation) should be encouraged for those that insist on being seasonal minters.
+As such, the 'seasonal timing attack' is beneficial to the security of the Peercoin chain, rather than a detriment.
 
 *Timestamp Attack*  
 A minter has 2 hours to place a block on the chain.
