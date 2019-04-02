@@ -1,6 +1,6 @@
 # Remove Proof-of-Work Block Signature
 
-- Status: proposed
+- Status: agreed
 - Type: enhancement
 - Related components: `protocol`
 - Start Date: 21-November-2017
