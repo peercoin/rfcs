@@ -1,6 +1,6 @@
 # MIN_FEE as standardness rule
 
-- Status: proposed
+- Status: rejected
 - Type: enhancement
 - Related components: protocol
 - Start Date: 16-05-2018
