@@ -11,7 +11,7 @@
 
 ## Summary
 
-Peercoin blocks contain a block signature covering it's contents, as is required by the Proof-of-Stake algorithm.
+Peercoin blocks contain a block signature covering its contents, as is required by the Proof-of-Stake algorithm.
 Unfortunately this block signature requirement has also been imposed on Proof-of-Work blocks, while these don't strictly need the signature as the Proof-of-Work covers the entire block's content.
 This RFC proposes the removal of the requirement for a valid signature in Proof-of-Work blocks.
 
