@@ -37,7 +37,7 @@ By removing the valid block signature requirement for Proof-of-Work blocks, Proo
 
 ## Detailed design
 
-- Remove the singing step from the BitcoinMiner thread for Proof-of-Work blocks.
+- Remove the signing step from the BitcoinMiner thread for Proof-of-Work blocks.
 - Remove the signing step in the submitblock rpc call for Proof-of-Work blocks.
 - Remove the validation step of the block signature for Proof-of-Work blocks.
 
