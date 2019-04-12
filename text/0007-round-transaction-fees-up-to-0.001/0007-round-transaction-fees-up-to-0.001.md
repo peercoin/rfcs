@@ -22,21 +22,23 @@ Effectively, transactions up to 102 bytes will pay minimal fee of 0.001 PPC. Tra
 
 ## Motivation
 
-We want to reduce transaction fees to ease adoption of our blockchain. 
+We want to reduce transaction fees to ease adoption of our blockchain.
 
 ## Detailed design
 
-This is the bulk of the RFC. Explain the design in enough detail for somebody familiar
-with the network to understand, and for somebody familiar with the code practices to implement.
-This should get into specifics and corner-cases, and include examples of how the feature is used.
+This RFC proposes the following set of rules for the fee calculation:
+
+* minimum fee is 0.001 Peercoin
+(if fee is under the 0.001 Peercoin, it is rounded to 0.001)
+* the only other rule which applies is PER_KB cost of 0.01 Peercoin/kB
 
 ## Drawbacks
 
-Fewer peercoins will be burned as fees.
+Due to lower fees, fewer Peercoins will be burned.
 
 ## Alternatives
 
-We could reduce cost per kb. 
+We could reduce the fixed cost per kb.
 
 ## Unresolved questions
 
