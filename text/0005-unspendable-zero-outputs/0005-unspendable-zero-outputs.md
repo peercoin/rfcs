@@ -1,6 +1,6 @@
 # Unspendable Zero Outputs
 
-- Status: agreed
+- Status: rejected
 - Type: bugfix (memory leak)
 - Related components: `protocol`
 - Start Date: 20-November-2017

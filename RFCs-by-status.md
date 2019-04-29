@@ -14,7 +14,6 @@ A list of all RFCs by their current status.
 ## Agreed RFCs
 
  - [#0004 Remove Transaction Timestamp](./text/0004-remove-transaction-timestamp/0004-remove-transaction-timestamp.md)
- - [#0005 Unspendable Zero Outputs](./text/0005-unspendable-zero-outputs/0005-unspendable-zero-outputs.md)
 
 ## Implemented RFCs
 
@@ -25,7 +24,8 @@ A list of all RFCs by their current status.
 ## Rejected RFCs
 
  - [#0001 Exponential PoS Target for Block Time Stabilization](./text/0001-exponential-pos-target-for-block-time-stabilization/0001-exponential-pos-target-for-block-time-stabilization.md)
+ - [#0005 Unspendable Zero Outputs](./text/0005-unspendable-zero-outputs/0005-unspendable-zero-outputs.md)
  - [#0010 MIN_FEE as standardness rule](./text/0010-min-fee-as-standardness-rule/0010-min-fee-as-standardness-rule.md)
 
 
-(Last updated _Tue Apr  9 15:30:29 CEST 2019_ at REV [b43bc5d](https://github.com/peercoin/rfcs/commit/b43bc5d769f6a74e3294b09421fd2c5bdd4832d5))
+(Last updated _Mon Apr 29 12:13:24 CEST 2019_ at REV [23d127e](https://github.com/peercoin/rfcs/commit/23d127e42331e02e544afaeac3c504c1306bc390))
