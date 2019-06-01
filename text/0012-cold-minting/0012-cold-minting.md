@@ -4,14 +4,14 @@
 - Type: new feature
 - Related components: (if any)
 - Start Date: 08-05-2014
-- Discussion: https://talk.peercoin.net/t/cold-storage-minting-proposal/2336 
+- Discussion: https://talk.peercoin.net/t/cold-storage-minting-proposal/2336 and https://github.com/peercoin/peercoin/pull/78
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
-- Author: (your name)
+- Author: Sigmike
 
 ## Summary
 
-The main idea is the use a new kind of address very similar to multi-signature addresses with two public keys, one that allows only minting and the other that allows only spending.
+The main idea is the use of a new kind of address very similar to multi-signature addresses with two public keys, one that allows only minting and the other that allows only spending.
 
 ## Conventions
 - The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
@@ -20,7 +20,7 @@ The main idea is the use a new kind of address very similar to multi-signature a
 
 Cold minting will increase minter participation in the network. It will allow minters to leave their spend keys in a safe cold storage while actively minting with their mint key on a hot system.
 It should be expected that cold minting of this form will result in mint pools where a single operator is in control of many users' mint keys.
-This proposal may also allow user-friendly multisig minting where multiple signatures are required to spend the coins but only the mind signature is needed to mint them.
+This proposal may also allow user-friendly multisig minting where multiple signatures are required to spend the coins but only the mint signature is needed to mint them.
 
 ## Detailed design
 
@@ -61,6 +61,7 @@ During the CoinStake creation we change the coin selection process to also selec
 By design, the mint keys are considered less important than the spend keys (i.e. they are held hot, given to a pool operator, etc).
 This can be considered detrimental to network security because thieves or pool operators may gather mint keys to accomplish a double spend or other network attack.
 In the case of mint pools, a pool operator may intentionally withold blocks in order to time a chain reorg for nefarious purposes without the spend key owner ever knowing.
+In the case of a thief, the spend key owner might not know the mint key was stolen until the thief steals enough mint keys to attack the network with, e.g., a double spend.
 
 ## Alternatives
 
@@ -68,9 +69,9 @@ Sunny King’s cold locked transactions (https://bitcointalk.org/index.php?topic
 
 NXT leased forging (http://wiki.nxtcrypto.org/wiki/Glossary/fr#Leased_Forging) which allows other addresses to mint on your behalf for a given period of time.
 
-d5000's coinage messaging (http://www.peercointalk.org/index.php?topic=2467.msg21919#msg21919) where you transfer coinage to another address.
+d5000's coinage messaging (https://talk.peercoin.net/t/minting-while-having-your-ppc-in-cold-storage/1772/39#msg21919) where you transfer coinage to another address.
 
-Allowing the mint key to spend the reward to discourage giving out the mint key too freely (http://www.peercointalk.org/index.php?topic=2467.msg21197#msg21197)
+Allowing the mint key to spend the reward to discourage giving out the mint key too freely (https://talk.peercoin.net/t/minting-while-having-your-ppc-in-cold-storage/1772/27#msg21197)
 
 ## Unresolved questions
 
