@@ -10,6 +10,7 @@ A list of all RFCs by their current status.
  - [#0002 Coinstake Transaction Split](./text/0002-split-coinstake-transaction/0002-split-coinstake-transaction.md)
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0011 Proof-of-Stake inflation adjustment](./text/0011-pos-inflation-adjustment/0011-pos-inflation-adjustment.md)
+ - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
 
 ## Agreed RFCs
 
@@ -28,4 +29,4 @@ A list of all RFCs by their current status.
  - [#0010 MIN_FEE as standardness rule](./text/0010-min-fee-as-standardness-rule/0010-min-fee-as-standardness-rule.md)
 
 
-(Last updated _Mon Apr 29 12:13:24 CEST 2019_ at REV [23d127e](https://github.com/peercoin/rfcs/commit/23d127e42331e02e544afaeac3c504c1306bc390))
+(Last updated _Sun Jun  2 12:39:57 CEST 2019_ at REV [174985e](https://github.com/peercoin/rfcs/commit/174985e0e47e960ea0fa5a6741f5435745d9c77a))
