@@ -57,10 +57,16 @@ Single outputs that do not represent a significant portion of `nMoneySupply` wil
 
 ## Drawbacks
 
-*Increased Load on Nodes*  
-`nAnnualPoSRewards` is a sum over PoS rewards in the last year.
-Creating and validating blocks will require a search through a substantial number of most recent block (~50,000) PoS rewards which increases the load on both minting and nonminting nodes.
-A node with recent blocks still in memory, such as during a fresh download of the blockchain, may be able to avoid the increased load.
+*Negligible Increased Load on Nodes*  
+`nAnnualPoSRewards` is a sum over PoS rewards in the last year which can be acquired as an index when downloading the blockchain and subsequent blocks.
+The memory and processing requirements of maintaining an additional floating constant are negligible.
+Similarly, by limiting the calculation of `nSubsidy` to a single recursion, the additional load on minters and validators to calculate `nSubsidy` is negligible.
+
+*Impact on Futuristic Signers*  
+It is currently possible to form and sign a coinstake many blocks in advance of inclusion in a block.
+One example of a use case for this would be multisig minting.
+As prediction of the precise `nSubsidy` is effectively impossible far in advance, this proposal could either disallow such action or require the minter(s) to use an `nSubsidy` sufficiently smaller than what is allowed.
+In the most stringent application of the latter possibility, the minter(s) should use `nAdjustmentMinimum` in their calculation.
 
 *Timing Attacks*  
 Minting before finding a valid PoS block is not possible, however a minter may always withhold blocks in an attempt to attain the best reward.
@@ -132,6 +138,15 @@ This is because coindaysdestroyed/block is sensitive to the Stake Grind while co
 Many coins are going to a model where each block gives a fixed reward (such as 5 PPC/block).
 This is generically untenable with the Peercoin PoS method, as it would remove coindays from the calculation.
 This would tilt the relative reward in favor of using small outputs, greatly benefitting the Stake Grind Attacker.
+
+*Generalized Functional Form*  
+One could imagine any number of alternative functions to use when calculating `nInflationAdjustment`.
+However, a series of stringent criteria ultimately limit the possible choices.
+Let us define `nAnnualPoSRewards`/`nMoneySupply` as x, representing network participation, and `nUnboundedInflationAdjustment`/`nPoSInflationTarget` as f(x), representing the functional form.
+For all x between 0 and 1, we require that xf(x) is always less than or equal to 1, in order to avoid increasing the total inflation beyond the inflation target, and f(x) must be positive.
+By mandating xf(x)=1, we can easily see that f(x)=1/x is the only answer.
+We can find alternate forms, such as f(x)=1-ln(x), where ln(x) is the natural logarithm of x.
+A functional form of this type will be part way between the current protocol, where f(x)=1, and the given proposal, where f(x)=1/x, in that it will result in less than 1% total inflation for all participations less than 100%, but will still award more mint rewards than the current protocol.
 
 ## Unresolved questions
 
