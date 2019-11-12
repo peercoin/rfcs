@@ -55,7 +55,7 @@ Bound the number with minimums and maximums.  The adjustment maximum should be c
 nSubsidy can be modified directly using nInflationAdjustment.  
 > int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;  
 
-*Limiting Coindays*
+*Limiting Coindays*  
 The year-long averaging of `nAnnualPoSRewards` implies that a stake-holder might gain an advantage by storing up their coindays for years until they find a favorable `nInflationAdjustment`.
 To prevent this, we would impose a 1-year limitation on coindays, such that any output that is held for longer than 1-year will have a maximum coindays of (365 * 33 + 8)/33 coindays per coin.
 
@@ -68,7 +68,7 @@ Maintaining these indices from a development perspective is less trivial, though
 Upgrading `nMoneySupply` to an index may make it easier to call that particular parameter, which is a trivial side benefit of this rfc.
 Similarly, `nAnnualStake` may also be a statistic of interest for those curious about the participation of minters on the chain.
 
-*Imprecise nAnnualStake*
+*Imprecise nAnnualStake*  
 The use of `nCoinAge` to calculate the annual stake may overestimate the true number of coins minting because blocks close to the 1-year expiry will have a coinage greater than the number of coins times the difference between the block stamp and the 1-year expiry date.
 Similarly, it may underestimate the true number of coins minting because it is impossible to know how many coins are held across the network in minting wallets at the moment an individual block is created.
 `nAnnualStake` is a best attempt to approximate the number of coins minting in the last year on average.
@@ -100,7 +100,7 @@ Therefore, it is nearly always in the Timing Attacker's best interest to release
 `nAnnualStake` is taken as a yearly average, so a seasonal timing attack whereby a minter waits for a favorable portion of the year to mint is not relevant.
 `nCoinAge` is limited to 1-year per coin, so minters are not able to wait for a favorable year to mint.
 
-*Limited CoinAge*
+*Limited CoinAge*  
 Limiting the reward of `nCoinAge` to 1-year per coin is a detriment to small minters who mint very rarely.
 Random chance can sometimes cause outputs with nearly 100 coins to take greater than a year to mint, even if a minter's wallet is always online and unlocked for minting.
 These outputs will lose potential reward for every day over the 1-year limit during which their coins do not mint.
