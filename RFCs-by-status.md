@@ -11,6 +11,7 @@ A list of all RFCs by their current status.
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0011 Proof-of-Stake inflation adjustment](./text/0011-pos-inflation-adjustment/0011-pos-inflation-adjustment.md)
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
+ - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
 
 ## Agreed RFCs
 
@@ -29,4 +30,4 @@ A list of all RFCs by their current status.
  - [#0010 MIN_FEE as standardness rule](./text/0010-min-fee-as-standardness-rule/0010-min-fee-as-standardness-rule.md)
 
 
-(Last updated _Sun Jun  2 12:39:57 CEST 2019_ at REV [174985e](https://github.com/peercoin/rfcs/commit/174985e0e47e960ea0fa5a6741f5435745d9c77a))
+(Last updated _Mon Jan 27 21:52:40 UTC 2020_ at REV [e74d60d](https://github.com/peercoin/rfcs/commit/e74d60dce731bda318b56fe599f920a9f519cea3))
