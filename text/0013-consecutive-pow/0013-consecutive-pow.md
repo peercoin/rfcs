@@ -36,19 +36,19 @@ The result will be that, going forward, each PoW block must be preceded and foll
 
 ## Drawbacks
 
-*Miner Participation*
+*Miner Participation*  
 Otherwise valid PoW blocks will be rejected.
 This may reduce miner participation, which is a serious concern given that lack of a continuous miner participation is the primary reason this RFC is being proposed in the first place.
 On the other hand, it could be argued that this RFC will prevent miners from having large strings of PoW blocks orphaned unexpectedly by a single higher chainweight PoS block.
 This RFC will mostly affect large changes in PoW difficulty, and under conditions of constant difficulty will only cause a small stochastic increase in PoW orphan frequency.
 
-*PoW Block Usurping*
+*PoW Block Usurping*  
 With or without the changes introduced in this RFC, a minter with a large hash power can use their coinstake to secure a PoW block that replaces a PoW block on the end of the chain, even if the minter's PoW block was found at a later time (lower difficulty).
 However, without this RFC, that minter could receive just as much reward by placing the PoW block after the current one.
 With this RFC, if the chain ends in a PoW block the minter must use their hash power on another chain until a PoS block is found, or attempt to usurp the current PoW block by using their stake to secure it.
 While this does not compromise the chain beyond a single orphan, an attack of this nature would result in a lowering of the PoW difficulty directly and cause miners to avoid the Peercoin chain.
 
-*Difficulty Disequilibrium*
+*Difficulty Disequilibrium*  
 Because PoW blocks could no longer come out in rapid succession when the hashpower changes, the difficulty will take longer to achieve equilibrium.
 In the case of a momentary large hashpower change, this will prevent large spikes in the difficulty.
 However, in the case of a more long term hashpower change, this will cause the system to enter a state of difficulty disequilibrium, where PoW blocks are found quickly after each PoS block is found.
@@ -57,13 +57,13 @@ Because the Peercoin chain recalibrates difficulty every block and the minter ne
 
 ## Alternatives
 
-*PoS-Only Confirmation*
+*PoS-Only Confirmation*  
 Only counting PoS blocks when calculating the 6-block transaction validity will also prevent double-spends in the event of a large miner moving to the Peercoin network, even if a string of consecutive PoW blocks are found.
 This method will not affect miners negatively as the current proposal would, but it could result in longer and less-intuitive wait times for the right type of confirmations.
 In addition, while it resolves the danger of a double spend, it does not stabilize the chain beyond that.
 A large string of PoW blocks with tiny chainweight can still be orphaned by a single PoS block, causing instability in the chain that can affect second layer solutions.
 
-*Difficulty Spiking*
+*Difficulty Spiking*  
 By spiking the PoW difficulty in the event of consecutive PoW blocks, a more organic solution to this issue could be found.
 For example, doubling the PoW difficulty every block until a PoS block is found (at which point the multiplier is reset) would require 36x the hashing power to find the 6th block in a row compared with the first block.
 In addition, the PoW reward is halved every time the difficulty increases by 16x, so every 5th consecutive block would be half again as rewarding.
