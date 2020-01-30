@@ -1,10 +1,10 @@
 # Consecutive PoW
 
-- Status: proposed ("proposed", "agreed", "active", "implemented" or "rejected")
+- Status: proposed
 - Type: new feature
 - Related components: (if any)
 - Start Date: 25-January-2020
-- Discussion: 
+- Discussion: https://talk.peercoin.net/t/rfc-0013-consecutive-pow/10049
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by: (fill me in with a link to RFC this is superseded by - if applicable)
 - Author: Nagalim

@@ -11,6 +11,7 @@ A list of all RFCs by their current status.
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0011 Proof-of-Stake inflation adjustment](./text/0011-pos-inflation-adjustment/0011-pos-inflation-adjustment.md)
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
+ - [#0013 Consecutive PoW](./text/0013-consecutive-pow/0013-consecutive-pow.md)
  - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
 
 ## Agreed RFCs
