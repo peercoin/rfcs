@@ -11,7 +11,7 @@
 
 ## Summary
 
-Transaction timestamp has posed compatibility issues with many of the major Bitcoin infrastructures, such as Lightning Networks.
+Transaction timestamp has long posed compatibility issues with many of the major Bitcoin infrastructures.
 
 It has been generally agreed upon that transaction timestamp inside coinstake transactions carries some security purposes, especially in the light of cold minting and minting pools.
 
