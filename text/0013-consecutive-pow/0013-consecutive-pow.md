@@ -1,6 +1,6 @@
 # Consecutive PoW
 
-- Status: proposed
+- Status: rejected
 - Type: new feature
 - Related components: (if any)
 - Start Date: 25-January-2020
