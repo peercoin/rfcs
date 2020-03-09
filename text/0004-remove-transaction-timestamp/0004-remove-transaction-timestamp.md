@@ -1,6 +1,6 @@
 # Remove Transaction Timestamp
 
-- Status: agreed
+- Status: rejected
 - Type: bugfix
 - Related components: `protocol`, `multisignature-minting`
 - Start Date: 17-May-2017
