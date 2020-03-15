@@ -61,7 +61,7 @@ Choosing 75 days instead of 60 days would be a compromise between this proposal 
 
 Combinations could be banned entirely, or some other rule added.
 It is important to realize that a minter can always manually combine all stakes and turn off client-side splitting, thereby allowing them to stake their total sum as a single output going forward.
-Without a ban, they could perform this without losing any coindays, but a ban would not ultimately prevent this kind of behavior.
+Without a ban, they could perform this action without losing any reward, but a ban would not ultimately prevent this kind of behavior.
 For this reason, finding a good compromise is the best way to ensure the most number of users allow the client settings to operate automatically and attain the maximum PoS difficulty and minimum deviation.
 
 This proposal has 3 parts: changing the split frequency, addition of a protocol rule, and changing the combine behavior.  Any of these three parts could be implemented independent of the other parts.
