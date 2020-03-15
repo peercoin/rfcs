@@ -18,9 +18,9 @@ This proposal will also outline a possible method for creating 'pooled coinstake
 
 ## Conventions
 - The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
-- "SPLIT": When a coinstake is used to mint a block within a short period of time from the creation of the staking output, the client will output the coinstake transaction to two approximately equal outputs.
-- "COMBINE": The addition of more than just the minting input to the coinstake transaction.
 - "STAKING INPUT": The input to the coinstake transaction that is hashed and compared against the PoS difficulty to find a block.
+- "SPLIT": When a coinstake is used to mint a block within a short period of time from the creation of the staking input, the client will output the coinstake transaction to two approximately equal outputs.
+- "COMBINE": The addition of more than just the staking input to the coinstake transaction.
 
 ## Motivation
 
