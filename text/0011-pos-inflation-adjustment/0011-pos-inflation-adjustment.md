@@ -92,9 +92,9 @@ The value of `nInflationAdjustment` will fluctuate regularly during this stage.
 
 When making a Timing Attack, the attacker will seek to move their block rewards closer to case 1.
 When choosing to withhold PoS blocks, the attacker is ultimately betting that `nAnnualStake` will decrease with time.
-This may be a reliable bet during specific moments when year old blocks with a large stake age out.
-However, it is very difficult to guess how much coinage will be used to stake in the near future.
-Therefore, it is nearly always in the Timing Attacker's best interest to release their PoS block immediately in order to attain the highest compounding interest. 
+This is most likely to be a good bet when the system is naturally moving from case 2 to case 1, i.e. when a significant number of minters drop out.
+Those minters who perceive this happening will then also drop out, hoping for more rewards later, thereby causing a runaway timing attack until the system equilibrates at case 1.
+A possible solution to this situation is explored in the 'Alternatives' section under 'Difficulty/Dayweight Implementation'.
 
 *Seasonal Timing Attack and Year-to-Year Timing Attack*  
 `nAnnualStake` is taken as a yearly average, so a seasonal timing attack whereby a minter waits for a favorable portion of the year to mint is not relevant.
@@ -127,9 +127,34 @@ Therefore, to approximate the additional risk introduced to the protocol via N@S
 It is currently possible to form and sign a coinstake many blocks in advance of inclusion in a block.
 One example of a use case for this would be multisig minting.
 As prediction of the precise `nSubsidy` is effectively impossible far in advance, this proposal could either disallow such action or require the minter(s) to use an `nSubsidy` sufficiently smaller than what is allowed.
-In the most stringent application of the latter possibility, the minter(s) should use `nRewardCoinYear * 100` in their calculation.
+In the most stringent application of the latter possibility, the minter(s) should default to the minimum adjustment to ensure inclusion in the chain.
 
 ## Alternatives
+
+*Difficulty/Dayweight Implementation*  
+In order to alleviate the potential for a runaway timing attack related to the slow moving average of 'nAnnualStake' compared to the PoS Difficutly, we can replace 'nAnnualStake' in the computation of 'nUnboundedInflationAdjustment' with 'nMintingCoins'.
+In calculating 'nMintingCoins', it is noted that the average number of coins minting can be estimated from the PoSDifficulty.
+This is done by realizing that the protocol allows for 1 hash per second, that there are 2^256 possible hashes, and that the target is defined as 2^224/difficulty.
+Therefore, the number of coins minting can be estimated as:
+
+> coins = (PoSDifficulty * 2^32) / (dayweight * 600)
+
+The 600 is a reference to the 10-minute block target, taken as 'nTargetTime'.
+The year-long average over 'nAnnualStake' will be replaced with a year-long average over dayweight, named 'nAnnualDayWeight'.
+The 'nDifficulty' is taken as the PoS difficulty target of the current block.
+Therefore, leaving the rest of the proposal the same, the adjustment can be calculated as follows:
+
+> int64 nUnboundedInflationAdjustment = nMoneySupply * nAnnualDayWeight * nTargetTime / (nDifficulty * 2^32)
+
+The benefits of this implementation are that the adjustment will increase directly when the difficulty languishes, stimulating minters to participate exactly at the time when the chain is most vulnerable.
+The average 1%/year would still be approximately followed for the same reasons that the original implementation laid out, though the deviation from this number would be stronger under this implementation.
+The drawbacks would be that the most effective attacks on adjustment would come from those manipulating the PoS difficulty, which is the hallmark of network security in Peercoin.
+One such attack is analgous to the timing attack, but on a much shorter time scale.
+When the PoS difficulty is dropping, a minter may choose to withhold their stake until the difficulty has reached a certain low value to maximize their adjustment.
+However, as the difficulty is much more drastically affected by a single block than 'nAnnualStake', the very next minter will gain an increased reward while the following minters will not receive such a benefit.
+This will prevent minters from performing such an action unless they control an exceedingly large portion of the minting coins, as they cannot depend on others to withhold their stake in the short term.
+Taken together with the maximum adjustment, a runaway form of this attack will not occur in the Difficulty/Dayweight Implementation, though the generic timing attack using predictions of minting times is still feasible.
+
 
 *Year by Block*  
 In order to invalidate the Timestamp Attack, `nAnnualPoSRewards` could sum over a number of blocks rather than a unit of time.
