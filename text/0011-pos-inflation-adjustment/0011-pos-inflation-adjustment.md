@@ -28,6 +28,7 @@ Increasing PoS block reward will likely increase minter participation, which is 
 In addition, having a clearly defined inflation rate in units of percent of total supply per year is considered healthy economic policy.
 As such, it is desirable to increase the PoS block reward until it approaches a target inflation, and to decrease the reward if it exceeds this target.
 It is assumed that the Peercoin network has concensus for a PoS inflation of `nRewardCoinYear`, currently 0.01, even when 100% of coins are minting, and so we will seek to produce a protocol modification that increases the PoS reward when less than 100% of coins are participating in the minting process.
+We will also seek to reward most those that mint continuously and use the standard splitting protocols defined in the client, as opposed to periodic minters or those that stake grind.
 
 ## Detailed design
 
@@ -52,21 +53,44 @@ First, we find the adjustment to the block reward as a number near 1.
 Bound the number with minimums and maximums.  The adjustment maximum should be considered a critical parameter.  
 > int64 nInflationAdjustment = Maximum[Minimum[nUnboundedInflationAdjustment , nAdjustmentMaximum] , nRewardCoinYear * 100]  
 
-nSubsidy can be modified directly using nInflationAdjustment.  
-> int64 nSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nRewardCoinYear * nInflationAdjustment;  
+nVariableSubsidy, analogous to nSubsidy, can be modified directly using nInflationAdjustment.
+We will use `nVariableWeight` in place of `nRewardCoinYear`, which will be explored in its own section.
+> int64 nVariableSubsidy = nCoinAge * 33 / (365 * 33 + 8) * nVariableWeight * nInflationAdjustment;  
 
 *Limiting Coindays*  
 The year-long averaging of `nAnnualPoSRewards` implies that a stake-holder might gain an advantage by storing up their coindays for years until they find a favorable `nInflationAdjustment`.
 To prevent this, we would impose a 1-year limitation on coindays, such that any output that is held for longer than 1-year will have a maximum coindays of (365 * 33 + 8)/33 coindays per coin.
 
+*Static Block Rewards*  
+To promote continuous minting and to punish minters who attempt to time their stake (see 'Timing Attacks' under Drawbacks, specifically with respect to the runaway timing attack), a static block reward will also be added.
+Because the inflation adjustment normalizes the variable subsidy to a particular inflation rate per year, we can equally make the static reward proportional to `nMoneySupply` and thereby maintain self-consistency.
+We will use an average blocks per day (1440 minutes / `nBlockTarget`, equivalent to 144 given 10 minute blocks) in order to target a particular annual inflation rate with reasonable accuracy.
+In order to maintain the target inflation rate of `nRewardCoinYear`, we will relate the static reward to the inverse ratio of the variable reward.
+> int64 nStaticSubsidy = (1 - 'nVariableWeight) * nMoneySupply * 33 / (365 * 33 + 8) * nBlockTarget / 1440
+
+*Variable Weight*  
+To put everything together, we now have a variable portion and a static portion that, when taken over the course of a full year, sum approximately to `nMoneySupply`.
+Therefore, we will create a compound `nSubsidy` that is targeted at a specific inflation rate.
+> int64 nSubsidy = nRewardCoinYear * (nVariableSubsidy + nStaticSubsidy)
+
+`nVariableWeight` can be taken as the component of the reward that is related to coinage, while its inverse is static.
+This weighting can be seen as a critical parameter that adjusts the relative reward and punishment of different minter behaviors.
+We will take `nVariableWeight` = 0.75 and discuss motivation for this choice in the Alternatives section.
+
+Ultimately, with each of these concerns taken in tandem, the ideal behavior of the minter will also be the most heavily rewarded, that of leaving the minting node on and allowing the standard stake splitting process that is already programmed into the wallet software.
+
 ## Drawbacks
 
-*Increased Complexity due to Two Indices*  
+*Increased Node Complexity due to Two Indices*  
 `nAnnualStake` and `nMoneySupply` are both indices that can be acquired as indices during initial download of the blockchain and updated on subsequent blocks.
 The memory and processing requirements of maintaining an additional floating constant are likely negligible.
 Maintaining these indices from a development perspective is less trivial, though there is precident for storing `nMoneySupply` as an index at least.
 Upgrading `nMoneySupply` to an index may make it easier to call that particular parameter, which is a trivial side benefit of this rfc.
 Similarly, `nAnnualStake` may also be a statistic of interest for those curious about the participation of minters on the chain.
+
+*Obfuscated Rewards*
+It becomes difficult to calculate by hand exactly what a minter is owed because the reward is no longer a straightforward 1%/year on whatever coins are held.
+This may be offputting to some minters, though their earned reward should be higher under RFC-0011 in nearly all cases.
 
 *Imprecise nAnnualStake*  
 The use of `nCoinAge` to calculate the annual stake may overestimate the true number of coins minting because blocks close to the 1-year expiry will have a coinage greater than the number of coins times the difference between the block stamp and the 1-year expiry date.
@@ -88,23 +112,30 @@ The value of `nInflationAdjustment` will not fluctuate from the maximum during t
 
 2. If we assume that a consistent fraction of minters participate reliably, then after some time nInflationAdjustment will approach a somewhat stable value.
 In this situation, `nInflationAdjustment = 1/(fraction of minters participating)`.
-The value of `nInflationAdjustment` will fluctuate regularly during this stage.
+The value of `nInflationAdjustment` will fluctuate on large timescales during this stage.
 
+*Runaway Timing Attack*
 When making a Timing Attack, the attacker will seek to move their block rewards closer to case 1.
 When choosing to withhold PoS blocks, the attacker is ultimately betting that `nAnnualStake` will decrease with time.
 This is most likely to be a good bet when the system is naturally moving from case 2 to case 1, i.e. when a significant number of minters drop out.
 Those minters who perceive this happening will then also drop out, hoping for more rewards later, thereby causing a runaway timing attack until the system equilibrates at case 1.
-A possible solution to this situation is explored in the 'Alternatives' section under 'Difficulty/Dayweight Implementation'.
+The deviation of `nVariableWeight` from 1, i.e. portion of static reward, will directly counteract such a runaway timing attack by rewarding all those who continue to mint based on a fraction of the total coin supply, rather than the size of the outputs used to mint and regardless of the current value of `nInflationAdjustment`.
 
 *Seasonal Timing Attack and Year-to-Year Timing Attack*  
 `nAnnualStake` is taken as a yearly average, so a seasonal timing attack whereby a minter waits for a favorable portion of the year to mint is not relevant.
 `nCoinAge` is limited to 1-year per coin, so minters are not able to wait for a favorable year to mint.
+
+*Stake Grinding the Static Reward*
+Including a static component in the reward motivates minters to split their outputs down to small amounts in order to maximize the number of blocks they might mint in a year.
+The 1 year limitation on coinage, combined with the magnitude of `nVariableWeight`, prevents minters from collecting some of the variable portion of their reward if they split their outputs small enough that they no longer mint within a year's time.
+These measures will greatly reduce blockchain bloat when compared to a purely static reward (`nVariableWeight` = 0) where grinding outputs down to their dust values becomes most effective.
 
 *Limited CoinAge*  
 Limiting the reward of `nCoinAge` to 1-year per coin is a detriment to small minters who mint very rarely.
 Random chance can sometimes cause outputs with nearly 100 coins to take greater than a year to mint, even if a minter's wallet is always online and unlocked for minting.
 These outputs will lose potential reward for every day over the 1-year limit during which their coins do not mint.
 On the other hand, this limitation will incentivize continuous minting and prevent years-old outputs from claiming a large mint reward that is arguably undeserved.
+In addition, the inclusion of a static reward will benefit small minters when they get lucky and find a block.
 
 *Exacerbated Protocol Attacks*  
 N@S and Stake Grind attacks are currently considered impractical because the reward to relative cost is very small, being limited only to a small amount of compounding interest.
@@ -131,8 +162,35 @@ In the most stringent application of the latter possibility, the minter(s) shoul
 
 ## Alternatives
 
+*Choice of nVariableWeight*
+The weighting of the variable portion with respect to the static portion should be seen as a balancing act.
+On the one hand, a weight of 1 would benefit those that perform timing attacks and could result in a runaway timing attack.
+On the other hand, a weight of 0 would benefit those that stake grind down to dust values.
+In order to see why a weighting of 0.75 is ideal, we can first analyze the case of `nVariableWeight` = 0.5, i.e. a 50/50 split between variable and static portions of the reward.
+
+A long-term timing attack would only beneficial to the minter if they recover the potential static rewards they could have had through a fluctuation in the adjustment.
+Because the static rewards are given only to those actively minting, they can be seen as proportional to the minter participation, similar to the variable reward but without a moving average.
+With a weight of 0.5, the timing attacker only breaks even if the adjustment moves by 100%, in order to double the amount made on the variable portion and make up for the amount lost on the static portion.
+However, it should be noted that this 100% is taken from the perspective of the true participation, rather than the current inflation adjustment, and so the minter would need the inflation adjustment to move 100% of the way to its new value.
+This is impossible because there is a minimum inflation adjustment, and so with a weight of 0.5 a long-term timing attack is always less profitable than a stake grind attack.
+For this reason, the long-term timing attack can never justify a reduction of `nVariableWeight` below 0.5.
+
+On the other hand, a weighting of 0.5 appears to profit the stake grinder greatly.
+Given the 1 year limitation on coinage, the stake grinder is able to grind their stake down to the point where they are likely to mint within as much as 2 years and still make back the fraction lost in coinage.
+Given this, it seems prudent to increase `nVariableWeight` above 0.5.
+
+With this understanding, we can now establish the tradeoff that `nVariableWeight` represents.
+A weighting of 0.67 would require a timing attack on the order of a 50% change in inflation adjustment (based on the higher end), for example from 2 to 4.
+On the other hand, it would allow for a grinding down to 6 months past the 1 year mark for stake.
+
+The value of 0.75 is chosen because a 33% change in inflation adjustment (for example, from 3 to 4.5) seems to be on the edge of acceptable.
+Similarly, 4 months past the 1 year coinage also appears to be an acceptable time frame.
+
+Other values, such as 0.8 for a 25% change in adjustment to benefit from timing attacks versus 3 months past 1 year to benefit from stake splitting, are also possible.
+However, the choice of 0.75 appears to be an appropriate balance amongst these options.
+
 *Difficulty/Dayweight Implementation*  
-In order to alleviate the potential for a runaway timing attack related to the slow moving average of 'nAnnualStake' compared to the PoS Difficutly, we can replace 'nAnnualStake' in the computation of 'nUnboundedInflationAdjustment' with 'nMintingCoins'.
+In order to alleviate the potential for a runaway timing attack related to the slow moving average of 'nAnnualStake' compared to the PoS Difficutly, we could replace 'nAnnualStake' in the computation of 'nUnboundedInflationAdjustment' with 'nMintingCoins'.
 In calculating 'nMintingCoins', it is noted that the average number of coins minting can be estimated from the PoSDifficulty.
 This is done by realizing that the protocol allows for 1 hash per second, that there are 2^256 possible hashes, and that the target is defined as 2^224/difficulty.
 Therefore, the number of coins minting can be estimated as:
@@ -155,6 +213,11 @@ However, as the difficulty is much more drastically affected by a single block t
 This will prevent minters from performing such an action unless they control an exceedingly large portion of the minting coins, as they cannot depend on others to withhold their stake in the short term.
 Taken together with the maximum adjustment, a runaway form of this attack will not occur in the Difficulty/Dayweight Implementation, though the generic timing attack using predictions of minting times is still feasible.
 
+The overarching issue with a difficulty-based implementation is that the difficulty is by design an equilibrium-seeking parameter.
+This means that it is regularly out of equilibrium with the true minting participation in the system.
+Ultimately, this form of implementation cannot not accurately measure the total coins minting, and indeed has been shown to greatly underestimate the participation.
+As a result, an implementation of this sort would drastically overestimate the required inflation adjustment and will result in significantly greater than 1% inflation.
+In addition, it is fairly easy to manipulate the rules that are designed for stabilizing blocktime and not inflation rate.
 
 *Year by Block*  
 In order to invalidate the Timestamp Attack, `nAnnualPoSRewards` could sum over a number of blocks rather than a unit of time.
