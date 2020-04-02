@@ -1,4 +1,4 @@
-Split and Combine
+# Split and Combine
 
 - Status: proposed
 - Type: parameter modification, new feature
