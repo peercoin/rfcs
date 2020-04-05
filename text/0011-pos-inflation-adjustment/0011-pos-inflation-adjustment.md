@@ -48,13 +48,13 @@ At the time of each PoS block, `nAnnualStake` is adjusted by subtracting coinday
 After each PoS block, `nAnnualStake` is adjusted by adding the corresponding coindays.
 
 The scaling factor will also rely on the parameter `nAdjustmentMaximum` which we will set at 5. 
-The minimum adjustment will be taken as `nRewardCoinYear * 100`.
+The minimum adjustment will be taken as 1, representing 100% participation.
 
 First, we find the adjustment to the block reward as a number near 1.
 > int64 nUnboundedInflationAdjustment = nMoneySupply/nAnnualStake  
 
 Bound the number with minimums and maximums.  The adjustment maximum should be considered a critical parameter.  
-> int64 nInflationAdjustment = Maximum[Minimum[nUnboundedInflationAdjustment , nAdjustmentMaximum] , nRewardCoinYear * 100]  
+> int64 nInflationAdjustment = Maximum[Minimum[nUnboundedInflationAdjustment , nAdjustmentMaximum] , 1]  
 
 nDynamicSubsidy, analogous to nSubsidy, can be modified directly using nInflationAdjustment.
 We will use `nDynamicWeight` on this portion of the subsidy and reserve the use of `nRewardCoinYear` for the final targeting of the inflation rate, which will be explored in its own section.
