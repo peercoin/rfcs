@@ -11,10 +11,12 @@ A list of all RFCs by their current status.
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
  - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
+ - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
+ - [#0018 Proof-of-Stake Reward](./text/0018-pos-reward/0018-pos-reward.md)
 
 ## Agreed RFCs
 
- - [#0011 Proof-of-Stake inflation adjustment](./text/0011-pos-inflation-adjustment/0011-pos-inflation-adjustment.md)
+ - [#0017 Coinage Limit](./text/0017-coinage-limit/0017-coinage-limit.md)
 
 ## Implemented RFCs
 
@@ -29,7 +31,8 @@ A list of all RFCs by their current status.
  - [#0004 Remove Transaction Timestamp](./text/0004-remove-transaction-timestamp/0004-remove-transaction-timestamp.md)
  - [#0005 Unspendable Zero Outputs](./text/0005-unspendable-zero-outputs/0005-unspendable-zero-outputs.md)
  - [#0010 MIN_FEE as standardness rule](./text/0010-min-fee-as-standardness-rule/0010-min-fee-as-standardness-rule.md)
+ - [#0011 Proof-of-Stake inflation adjustment](./text/0011-pos-inflation-adjustment/0011-pos-inflation-adjustment.md)
  - [#0013 Consecutive PoW](./text/0013-consecutive-pow/0013-consecutive-pow.md)
 
 
-(Last updated _Mon 09 Mar 2020 07:58:06 PM CET_ at REV [d2d783a](https://github.com/peercoin/rfcs/commit/d2d783aca652ff84b16eb4665c4c73fe253f6748))
+(Last updated _Sat 02 May 2020 12:35:15 PM CEST_ at REV [25375c3](https://github.com/peercoin/rfcs/commit/25375c39e9cd258f791e1717435ddf5fb0eb0356))
