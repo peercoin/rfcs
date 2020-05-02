@@ -1,6 +1,6 @@
 # Proof-of-Stake inflation adjustment
 
-- Status: agreed
+- Status: rejected
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 08-11-2018
