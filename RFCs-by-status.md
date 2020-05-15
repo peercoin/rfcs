@@ -12,11 +12,9 @@ A list of all RFCs by their current status.
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
  - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
  - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
- - [#0018 Proof-of-Stake Reward](./text/0018-pos-reward/0018-pos-reward.md)
 
 ## Agreed RFCs
 
- - [#0017 Coinage Limit](./text/0017-coinage-limit/0017-coinage-limit.md)
 
 ## Implemented RFCs
 
@@ -24,6 +22,8 @@ A list of all RFCs by their current status.
  - [#0007 Round Transaction Fees Up To 0.001](./text/0007-round-transaction-fees-up-to-0.001/0007-round-transaction-fees-up-to-0.001.md)
  - [#0008 Increase OP_RETURN size limit](./text/0008-increase-op-return-size-limit/0008-increase-op-return-size-limit.md)
  - [#0015 Time Drift](./text/0015-time-drift/0015-time-drift.md)
+ - [#0017 Coinage Limit](./text/0017-coinage-limit/0017-coinage-limit.md)
+ - [#0018 Proof-of-Stake Reward Adjustment](./text/0018-pos-reward/0018-pos-reward.md)
 
 ## Rejected RFCs
 
@@ -35,4 +35,4 @@ A list of all RFCs by their current status.
  - [#0013 Consecutive PoW](./text/0013-consecutive-pow/0013-consecutive-pow.md)
 
 
-(Last updated _Sat 02 May 2020 12:35:15 PM CEST_ at REV [25375c3](https://github.com/peercoin/rfcs/commit/25375c39e9cd258f791e1717435ddf5fb0eb0356))
+(Last updated _Fri 15 May 2020 10:49:50 AM CEST_ at REV [6899082](https://github.com/peercoin/rfcs/commit/6899082cc9f3ed5ec65cb13b7f83b56413b1cd00))

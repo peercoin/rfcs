@@ -1,6 +1,6 @@
 # Coinage Limit
 
-- Status: agreed
+- Status: implemented
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 04-27-2020

@@ -1,12 +1,12 @@
-# Proof-of-Stake Reward
+# Proof-of-Stake Reward Adjustment
 
-- Status: proposed
+- Status: implemented
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 04-28-2020
-- Discussion: 
-- Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
-- Superseded by: RFC-0011
+- Discussion: https://talk.peercoin.net/t/rfc-0018-proof-of-stake-reward-adjustment/10247/
+- Supersedes: RFC-0011
+- Superseded by:
 - Author: Nagalim
 
 ## Summary
