@@ -1,10 +1,10 @@
 # Proof-of-Work Block Spacing
 
-- Status: proposed
+- Status: implemented
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 05-04-2020
-- Discussion: 
+- Discussion: https://talk.peercoin.net/t/rfc-0019-pow-block-spacing/10264
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by:
 - Author: Nagalim

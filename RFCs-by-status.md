@@ -24,6 +24,7 @@ A list of all RFCs by their current status.
  - [#0015 Time Drift](./text/0015-time-drift/0015-time-drift.md)
  - [#0017 Coinage Limit](./text/0017-coinage-limit/0017-coinage-limit.md)
  - [#0018 Proof-of-Stake Reward Adjustment](./text/0018-pos-reward/0018-pos-reward.md)
+ - [#0019 Proof-of-Work Block Spacing](./text/0019-pow-block-spacing/0019-pow-block-spacing.md)
 
 ## Rejected RFCs
 
@@ -35,4 +36,4 @@ A list of all RFCs by their current status.
  - [#0013 Consecutive PoW](./text/0013-consecutive-pow/0013-consecutive-pow.md)
 
 
-(Last updated _Fri 15 May 2020 10:49:50 AM CEST_ at REV [6899082](https://github.com/peercoin/rfcs/commit/6899082cc9f3ed5ec65cb13b7f83b56413b1cd00))
+(Last updated _Fri 15 May 2020 10:57:09 AM CEST_ at REV [c4203c8](https://github.com/peercoin/rfcs/commit/c4203c8a09f63d55ec2a61b1cd2780b048a8a6d1))
