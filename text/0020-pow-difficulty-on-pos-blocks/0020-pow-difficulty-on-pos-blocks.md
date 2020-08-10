@@ -39,16 +39,15 @@ Where Lambda is the target time divided by the time it took to mine the previous
 Lambda is a number near 1 that is bounded directly in the protocol.
 We will not make any consequential changes during the interval where Lambda is less than 1 (i.e. when it has been less than the target time since a PoW block was found).
 
-We will now store a PoW difficulty in the coinbase of PoS blocks.
-If a PoS block is found before the target time since the last PoW block, the PoW difficulty stored will be the same as the PoW block (i.e. replace Lambda with 1).
-Each time a PoS block is found after the target time since the last PoW block, a new mining difficulty will be stored with Lambda calculated using the time of the last PoW block and bounded appropriately.
-In order for a new PoW block to be found, it must only beat the difficulty stored in the last PoS block, though the new PoW difficulty stored will still be calculated using the last PoW block.
+If a PoS block is found before the target time since the last PoW block, the PoW difficulty will be the same as the last PoW block (i.e. Lambda has a minimum of 1 on PoS blocks).
+Each time a PoS block is found after the target time since the last PoW block, a new mining difficulty will be used with Lambda calculated using the time of the last PoW block and bounded appropriately.
+In order for a new PoW block to be found, it must only beat the difficulty implied by the last PoS block, though the new PoW difficulty will still be calculated using the last PoW block.
 
 ## Drawbacks
 
 Allowing difficulty to drop during PoS blocks should be effective at diffusing difficulty bombs, up to the bounds on Lambda.
-Still, the natural boom-and-bust caused by convenience of miners to redirect their hashpower in bursts cannot be expected to be solved on-chain.
-Ultimately, there is no perfect answer for this behavior aside from being the hash-dominant SHA-256 blockchain, which is contrary to the design of Peercoin.
+Still, the natural boom-and-bust caused by convenience of miners to redirect their hashpower in bursts cannot be expected to be solved on-chain as long as Peercoin shares a hashing algorithm with more hash-dominant coins such as Bitcoin, and switching to a unique hashing algorithm is contrary to the energy-efficient design of Peercoin.
+While this RFC is not a perfect answer for the boom-and-bust behavior, this change is expected to be an improvement.
 
 The increased protocol complexity and upkeep of its functions is the only drawback to this proposal.
 
