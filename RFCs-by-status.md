@@ -12,6 +12,7 @@ A list of all RFCs by their current status.
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
  - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
  - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
+ - [#0020 Proof-of-Work Difficulty on PoS Blocks](./text/0020-pow-difficulty-on-pos-blocks/0020-pow-difficulty-on-pos-blocks.md)
 
 ## Agreed RFCs
 
@@ -36,4 +37,4 @@ A list of all RFCs by their current status.
  - [#0013 Consecutive PoW](./text/0013-consecutive-pow/0013-consecutive-pow.md)
 
 
-(Last updated _Fri 15 May 2020 10:57:09 AM CEST_ at REV [c4203c8](https://github.com/peercoin/rfcs/commit/c4203c8a09f63d55ec2a61b1cd2780b048a8a6d1))
+(Last updated _Fri 30 Oct 2020 09:27:17 PM CET_ at REV [617027a](https://github.com/peercoin/rfcs/commit/617027aeb699cecc025d38bf2fb55a9976d9890f))
