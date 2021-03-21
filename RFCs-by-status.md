@@ -13,6 +13,7 @@ A list of all RFCs by their current status.
  - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
  - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
  - [#0020 Proof-of-Work Difficulty on PoS Blocks](./text/0020-pow-difficulty-on-pos-blocks/0020-pow-difficulty-on-pos-blocks.md)
+ - [#0021 Proof-of-Work SHA-3](./text/0021-pow-sha3/0021-pow-sha3.md)
 
 ## Agreed RFCs
 
