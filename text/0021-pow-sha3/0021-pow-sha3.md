@@ -1,4 +1,4 @@
-# Proof-of-Work SHA3
+# Proof-of-Work SHA3 for Energy Efficiency
 
 - Status: proposed
 - Type: adaptation
