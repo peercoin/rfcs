@@ -4,7 +4,7 @@
 - Type: adaptation
 - Related components: 
 - Start Date: 03-21-2021
-- Discussion: 
+- Discussion: https://talk.peercoin.net/t/rfc-0021-proof-of-work-sha3-for-energy-efficiency/15283
 - Author: Paden
 
 ## Summary
