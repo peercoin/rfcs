@@ -4,7 +4,7 @@
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 03-18-2021
-- Discussion: 
+- Discussion: https://talk.peercoin.net/t/rfc-0022-pow-reward-cap/15282
 - Supersedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Superseded by:
 - Author: Peerchemist
