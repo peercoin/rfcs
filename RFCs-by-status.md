@@ -14,6 +14,7 @@ A list of all RFCs by their current status.
  - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
  - [#0020 Proof-of-Work Difficulty on PoS Blocks](./text/0020-pow-difficulty-on-pos-blocks/0020-pow-difficulty-on-pos-blocks.md)
  - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
+ - [#0022 Proof-of-Work reward cap](./text/0022-pow-reward-cap/0022-pow-reward-cap.md)
 
 ## Agreed RFCs
 
@@ -38,4 +39,4 @@ A list of all RFCs by their current status.
  - [#0013 Consecutive PoW](./text/0013-consecutive-pow/0013-consecutive-pow.md)
 
 
-(Last updated _Fri 30 Oct 2020 09:27:17 PM CET_ at REV [617027a](https://github.com/peercoin/rfcs/commit/617027aeb699cecc025d38bf2fb55a9976d9890f))
+(Last updated _Mon 22 Mar 2021 11:24:46 AM CET_ at REV [3e561f0](https://github.com/peercoin/rfcs/commit/3e561f00c88d7a2f5e06fe7a3a18cee7d2df938a))
