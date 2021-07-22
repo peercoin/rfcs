@@ -14,6 +14,8 @@ A list of all RFCs by their current status.
 
 ## Agreed RFCs
 
+ - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
+ - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
 
 ## Implemented RFCs
 
@@ -37,4 +39,4 @@ A list of all RFCs by their current status.
  - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
 
 
-(Last updated _Thu 22 Jul 2021 01:00:19 PM CEST_ at REV [0f25ef7](https://github.com/peercoin/rfcs/commit/0f25ef7a3095e296cf2bc99abe5b830c86ffc4de))
+(Last updated _Thu 22 Jul 2021 01:05:03 PM CEST_ at REV [8159c59](https://github.com/peercoin/rfcs/commit/8159c59e79c4ed52600bd296c5d6fc76f10334e7))

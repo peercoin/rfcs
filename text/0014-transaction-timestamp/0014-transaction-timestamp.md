@@ -1,6 +1,6 @@
 # Remove Transaction Timestamp
 
-- Status: accepted
+- Status: agreed
 - Type: protocol/persistent format change
 - Related components: `protocol`, `multisignature-minting`
 - Start Date: 27-Jan-2020
