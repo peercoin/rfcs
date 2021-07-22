@@ -1,6 +1,6 @@
 # Split and Combine
 
-- Status: proposed
+- Status: accepted
 - Type: parameter modification, new feature
 - Related components: (if any)
 - Start Date: 14-March-2020

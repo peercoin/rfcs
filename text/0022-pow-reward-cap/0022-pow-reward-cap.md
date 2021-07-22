@@ -1,6 +1,6 @@
 # Proof-of-Work reward cap
 
-- Status: proposed
+- Status: implemented
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 03-18-2021

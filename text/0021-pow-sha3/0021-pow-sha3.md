@@ -1,6 +1,6 @@
 # Proof-of-Work SHA3 for Energy Efficiency
 
-- Status: proposed
+- Status: rejected
 - Type: adaptation
 - Related components: 
 - Start Date: 03-21-2021
