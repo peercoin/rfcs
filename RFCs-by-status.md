@@ -10,11 +10,7 @@ A list of all RFCs by their current status.
  - [#0002 Coinstake Transaction Split](./text/0002-split-coinstake-transaction/0002-split-coinstake-transaction.md)
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
- - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
- - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
  - [#0020 Proof-of-Work Difficulty on PoS Blocks](./text/0020-pow-difficulty-on-pos-blocks/0020-pow-difficulty-on-pos-blocks.md)
- - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
- - [#0022 Proof-of-Work reward cap](./text/0022-pow-reward-cap/0022-pow-reward-cap.md)
 
 ## Agreed RFCs
 
@@ -28,6 +24,7 @@ A list of all RFCs by their current status.
  - [#0017 Coinage Limit](./text/0017-coinage-limit/0017-coinage-limit.md)
  - [#0018 Proof-of-Stake Reward Adjustment](./text/0018-pos-reward/0018-pos-reward.md)
  - [#0019 Proof-of-Work Block Spacing](./text/0019-pow-block-spacing/0019-pow-block-spacing.md)
+ - [#0022 Proof-of-Work reward cap](./text/0022-pow-reward-cap/0022-pow-reward-cap.md)
 
 ## Rejected RFCs
 
@@ -37,6 +34,7 @@ A list of all RFCs by their current status.
  - [#0010 MIN_FEE as standardness rule](./text/0010-min-fee-as-standardness-rule/0010-min-fee-as-standardness-rule.md)
  - [#0011 Proof-of-Stake inflation adjustment](./text/0011-pos-inflation-adjustment/0011-pos-inflation-adjustment.md)
  - [#0013 Consecutive PoW](./text/0013-consecutive-pow/0013-consecutive-pow.md)
+ - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
 
 
-(Last updated _Mon 22 Mar 2021 11:24:46 AM CET_ at REV [3e561f0](https://github.com/peercoin/rfcs/commit/3e561f00c88d7a2f5e06fe7a3a18cee7d2df938a))
+(Last updated _Thu 22 Jul 2021 01:00:19 PM CEST_ at REV [0f25ef7](https://github.com/peercoin/rfcs/commit/0f25ef7a3095e296cf2bc99abe5b830c86ffc4de))
