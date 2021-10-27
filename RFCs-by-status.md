@@ -14,7 +14,6 @@ A list of all RFCs by their current status.
 
 ## Agreed RFCs
 
- - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
  - [#0016 Split and Combine](./text/0016-split-and-combine/0016-split-and-combine.md)
 
 ## Implemented RFCs
@@ -22,6 +21,7 @@ A list of all RFCs by their current status.
  - [#0006 Remove Proof-of-Work Block Signature](./text/0006-remove-pow-block-signature/0006-remove-pow-block-signature.md)
  - [#0007 Round Transaction Fees Up To 0.001](./text/0007-round-transaction-fees-up-to-0.001/0007-round-transaction-fees-up-to-0.001.md)
  - [#0008 Increase OP_RETURN size limit](./text/0008-increase-op-return-size-limit/0008-increase-op-return-size-limit.md)
+ - [#0014 Remove Transaction Timestamp](./text/0014-transaction-timestamp/0014-transaction-timestamp.md)
  - [#0015 Time Drift](./text/0015-time-drift/0015-time-drift.md)
  - [#0017 Coinage Limit](./text/0017-coinage-limit/0017-coinage-limit.md)
  - [#0018 Proof-of-Stake Reward Adjustment](./text/0018-pos-reward/0018-pos-reward.md)
@@ -39,4 +39,4 @@ A list of all RFCs by their current status.
  - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
 
 
-(Last updated _Thu 22 Jul 2021 01:05:03 PM CEST_ at REV [8159c59](https://github.com/peercoin/rfcs/commit/8159c59e79c4ed52600bd296c5d6fc76f10334e7))
+(Last updated _Wed 27 Oct 2021 01:24:01 PM CEST_ at REV [7c6eb2f](https://github.com/peercoin/rfcs/commit/7c6eb2f8041b9d3c198bb24c4fb2b370aee5f542))
