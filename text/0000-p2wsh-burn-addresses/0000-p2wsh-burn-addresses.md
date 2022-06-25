@@ -32,20 +32,20 @@ wallets that support P2WSH.
 Burn addresses shall encode a 32 byte "burn witness program" with the following
 concatenated data:
 
-- 16 zero bytes
 - 4 bytes application identifier
+- 16 zero bytes
 - 12 bytes application specific data
-
-The witness program will start with 16 zero bytes to ensure that it is not
-possible to brute force an associated spendable script (pre-image). 16 bytes
-corresponds with 128 bits. The current bitcoin hash rate corresponds to around
-67 bits per second of brute-force and would not come close to 128 bits, even
-after a thousand years.
 
 4 bytes are used for the application identifier. This may be anything, but
 should be unique between different applications to avoid conflicts.
 
-If a 32 byte P2WSH witness program starts with 16 bytes, this shall be
+The witness program will contain 16 zero bytes after the application ID to
+ensure that it is not possible to brute force an associated spendable script
+(pre-image). 16 bytes corresponds with 128 bits. The current bitcoin hash rate
+corresponds to around 67 bits per second of brute-force and would not come close
+to 128 bits, even after a thousand years.
+
+If a 32 byte P2WSH witness program has 16 zero bytes from index 4, this shall be
 identified by the Peercoin protocol as being "unspendable". Any output
 containing such a program will not be added to the UTXO set. These outputs may
 be identified in the `CScript::IsUnspendable` method, but care must be taken to
