@@ -1,4 +1,4 @@
-# P2WSH Burn Addresses
+# Pay-to-Provable-Unspendable-Tag Outputs (P2PUT)
 
 - Status: proposed 
 - Type: new feature 
@@ -27,13 +27,13 @@ allows them to be removed from the UTXO set and the associated supply.
 
 The address scheme will reuse the P2WSH (Pay to Witness Script Hash) output type
 and associated bech32 addresses to be fully backward compatible with existing
-wallets that support P2WSH.
+wallets that support P2WSH. This scheme provides a subset output P2PUT type.
 
-Burn addresses shall encode a 32 byte "burn witness program" with the following
+Burn addresses shall encode a 32 byte "P2PUT witness program" with the following
 concatenated data:
 
 - 5 bytes application identifier
-- 15 "burn identifier" bytes: `7bdef7bdef7bdef7bdef7bdef7bdef`
+- 15 "P2PUT identifier" bytes: `7bdef7bdef7bdef7bdef7bdef7bdef`
 - 12 bytes application specific data
 
 ### Application Identifier
@@ -54,8 +54,8 @@ applications to avoid conflicts.
 
 The 15 bytes following the application identifier shall be
 `7bdef7bdef7bdef7bdef7bdef7bdef` which shall encode into 24 `0` characters.
-These bytes shall be used to identify burn addresses. The `0` characters make
-the burn addresses easily recognisable.
+These bytes shall be used to identify P2PUT outpus. The `0` characters make the
+burn addresses easily recognisable.
 
 Because these 15 bytes are fixed, it is not possible to brute force an
 associated spendable script (pre-image). 15 bytes corresponds with 120 bits. The
@@ -65,7 +65,7 @@ brute-force and wouldn't reach 120 bits, even after 10 million years.
 ### Application Specific Data
 
 The final 12 bytes are for application specific data. Applications can identify
-addresses by the application ID and burn identifier, and then use the
+addresses by the application ID and P2PUT identifier, and then use the
 application data for whatever purpose. It is recommended to pad this data to the
 left with `0` characters, using the same repeating 5-bit pattern:
 `7bdef7bdef7bdef7bdef7bde`.
@@ -92,14 +92,14 @@ If the data was to include 12 bytes of application data using
 
 ### Exclusion from UTXO Set
 
-If a 32 byte P2WSH witness program has the 15 byte burn identifier from index 5,
-this shall be identified by the Peercoin protocol as being "unspendable". Any
+If a 32 byte P2WSH witness program has the 15 byte P2PUT identifier from index
+5, this shall be identified by the Peercoin protocol as being "unspendable". Any
 output containing such a program will not be added to the UTXO set. These
 outputs may be identified in the `CScript::IsUnspendable` method, but care must
 be taken to ensure this function is used against output scripts only.
 
 The chain state database will need to be updated once to remove any existing
-outputs with burn witness programs.
+outputs with P2PUT witness programs.
 
 ## Drawbacks
 
@@ -136,7 +136,7 @@ command.
 ## Unresolved questions
 
 When updating the wallet software there are three options to deal with
-pre-existing burn outputs:
+pre-existing P2PUT outputs:
 
 1. Automatically update the chain state database to remove these outputs.
 2. Ask users to reindex the blockchain.
