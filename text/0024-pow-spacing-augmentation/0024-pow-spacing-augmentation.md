@@ -4,7 +4,7 @@
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 09-23-2022
-- Discussion: 
+- Discussion: https://talk.peercoin.net/t/rfc-0024-pow-spacing-augmentation/15894
 - Supercedes: (fill me in with a link to RFC this supersedes - if applicable)
 - Requisite: rfc-0020
 - Author: Nagalim
