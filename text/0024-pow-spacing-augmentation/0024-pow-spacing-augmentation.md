@@ -1,4 +1,4 @@
-# PoW Spacing Augmentation
+ PoW Spacing Augmentation
 
 - Status: proposed
 - Type: protocol adjustment
@@ -37,51 +37,53 @@ The current algorithm for modifying the proof of work difficulty is an exponenti
         bnNew *= ((nInterval - 1) * nTargetSpacing + nActualSpacing + nActualSpacing);
         bnNew /= ((nInterval + 1) * nTargetSpacing);
 
-This form of the equation is a unique one because it satisfies a particular requirement.
-If there are n blocks in a time period t, then it doesn't matter when the blocks take place, the equation will result in the same ending difficulty of the chain.
-Any form of nNew being linearly related to nActualSpacing will have this same result because of the commutative rule of multiplication.
-This behavior is very important for chains that use difficulty as a form of chain weight, because it prevents strings of blocks from gaining weight over even block distributions.
+This is an exponential moving average retargeting algorithm with an nInterval targeting a 1 week timespan (normalized by the target spacing of 1 hour).
+The algorithm used in pow.cpp is common between PoW and PoS difficulty adjustments, albeit with a different target spacing.
+This target spacing is set separately for PoS and PoW difficulty adjustments just before the algorithm via 'if (fproofofstake)'.
+The 'timespan' is chosen to be a week as a global parameter throughout the code.
+Having a simple determination of the timespan and the target, and therefore 'nInterval', is important for chains that use difficulty as a form of chainweight.
 The chainweight in Peercoin, however, is not a function of PoW difficulty at all.
 This is a degree of freedom we can leverage to accomplish the goal of more even block distribution.
 
-One way to view the question of what functional form to take is to realize that across a single block the difficulty can move infinitely far down (in the case of eternity between blocks) but can only move up as quickly as the limit of nActualSpacing=0, which is around a 1% change per block.
-The variable nInterval is the expected number of blocks in a week, or 168.
-The function in the code can then be written as:  New Difficulty = Old Difficulty divided by f(x), where 'x' is the ratio of actual spacing to target spacing.
+In considering concepts of tuning the difficulty adjustment algorithm, we consider the natural asymmetry of the adjustment.
+Across a single block, the difficulty can move infinitely far down (in the case of eternity between blocks) but can only move up as quickly as the limit of nActualSpacing=0, which is around a 1% change per block.
+In addition, rfc0020 only affects the slow end of adjustment, providing more timestamps that shift the difficulty down only when the time since the last PoW block exceeds the target.
+Here, we seek to work on the fast side of the behavior, moving the difficulty up faster when blocks come in before the target.
+As such, we will use a piecewise augmentation of the interval for more aggressive upward motion of the difficulty.
 
-        f(x) = (167+2*x)/169
+To maintain behavior of the exponential moving average, as well as the targeted spacing, we should augment either the timespan or the interval.  As a rough example written by someone who is not a cpp developer, we will augment the locally defined 'nInterval' 
+variable with separate definitions for downward PoW difficulty changes.
+We use a linear function of the actual spacing to multiply the speed with which the algorithm adjusts the difficulty.
 
-In moving away from linearity, we have a wide array of mathematical processes we could choose from.
-However, we have a few desired requirements.
-First, we want to balance the long term and the short term behavior such that strings of blocks, especially very close together blocks, are penalized more.
-Second, we want to somewhat preserve the behavior at long time scales, though a slight increase increase in slope would be fine.
-Third we want the game theoretic best practice to coincide with regularly spaced blocks.
-Fourth, we want the equation to be continuous and differentiable to avoid any strange edge cases.
-And fifth goes without saying, that the algorithm should seek to converge on the target by setting f(1)=1, f(<1)<1, and f(>1)>1.
+        Interval *= [(1/a)*ActualSpacing/TargetSpacing - (a-1)/a]
 
-With the concept of making 0 limit to the same as infinity, we compare the functions x and 1/x.
-We seek a combination of these terms that achieves the above requirements.
-In so doing, we augment the original spacing parameterization f'(x)=f(g(x)) where g(x)~x+1/x-1=x+(x-1)/x.
-However, we would limit this so as to avoid an infinity at x=0.
-In choosing the limit, we aim to augment the 0-time increase of difficulty to be a little over 3x the speed of difficulty decrease.
-As such, our equation will be:
+Where '*=' means 'multiply the value by'.
 
-        g(x)=x+(x-1)/(x+0.3)
+We can choose an 'a' that gives us the faster response we desire.
+Specifically, a choice of 2 or 4 corresponds to a 2x or 4x modification at ActualSpacing=0, i.e. instant PoW block strings.
+As we can sometimes see 6-8 block strings in current operation of the chain, setting a=4 would be a targetted choice to reduce these strings to 1 or 2 blocks.
 
-Remembering that x=nActualSpacing/nTargetSpacing allows us to see how the code would look.
-We will define a new spacing:
+Defining the augmentation would then appear like this (please forgive this attempt) after the declaration of nInterval:
 
-        nAugmentSpacing = nTargetSpacing
-        nAugmentSpacing *= nActualSpacing - nTargetSpacing
-        nAugmentSpacing /= nActualSpacing + nSpacingParameter*nTargetSpacing
 
-And we keep the update function the same, adding on the augmentation the same way nActualSpacing is added:
+                if (IsProtocolVThisRFC(pindexLasrt->nTime)) {
+                    if (!fProofOfStake){
+                        if (nActualSpacing < nTargetSpacing){
+                            if (nActualSpacing < 0){
+                                nActualSpacing = 0;
+                            }
+                            nInterval *= ((1/4) + ((3/4) * nActualSpacing/nTargetSpacing));
+                        }
+                    }
+                }
 
-        bnNew *= ((nInterval - 1) * nTargetSpacing + nActualSpacing + nActualSpacing + nAugmentSpacing + nAugmentSpacing);
-        bnNew /= ((nInterval + 1) * nTargetSpacing);
+We could also place the calculation of nInterval higher into the preceding 'if' statement that already includes fProofofStake, which we list in the unresolved questions section.
+
+This implementation is continuous (i.e. it limits to 1 at ActualSpacing=TargetSpacing).  It is also differentiable to first order across this limit, making it a 'smooth' function that will provide good participant behaviors.
 
  Another way of seeing the effect of this proposal is from the perspective of what the difficulty does in a clustered chain vs an evenly distributed chain.
  If there are 2 blocks in 2 times the target time, the difficulty will be constant if they are evenly spaced.
- If they are clustered at 0 and 2 times the target, then the difficulty will increase by ~5% then decrease by ~1.6%.
+ If they are clustered at 0 and 2 times the target, then the difficulty will increase by ~4% then decrease by ~1%.
  This trend toward higher difficulty for clustered chains is a direct consequence of adjusting the difficulty sharper on the up swing than the down swing, but it also can hopefully have secondary socially-driven effects.
  The game-theoretic behavior of miners that wish to increase their reward for a given hash rate will be to spread it out evenly in time, rather than contributing to a boom or bust cycle.
  This, together with the tighter algorithm in the wake of rfc20, should contribute strongly to a steady stream of work-distributed block rewards.
@@ -91,16 +93,17 @@ And we keep the update function the same, adding on the augmentation the same wa
 This proposal makes the code more complex.
 Specifically and unfortunately, it may incur complications from the implementation of rfc20.
 This proposal can also make the difficulty changes less intuitive, which could drive away miners.
+On the other hand, it should prevent the boom and bust cycles that could be currently driving miners away.
 
 ## Alternatives
 
-We could simply change nInterval to adjust the slope of the equation.
+We could decrease nInterval by a factor of 2 or 4, making the effective TargetTimespan a couple of days rather than a week.
+This would be simpler algorithmically, but would include many of the same 'if' statements.
 
-        int64_t nInterval = params.nTargetTimespan / (2 * nTargetSpacing);
-        
-nTargetTimespan from which nInterval is derived represents a week on average in Peercoin v0.1 and this would tune it down to 3.5 days.
-We could hypothetically do this with any fraction or target interval of stabilization.
+We could hypothetically do this with any factor or target interval of stabilization.
 However, this is just a simple linear tuning knob and will never capture the asymmetric behavior of a pow boom and bust cycle.
 Still, tightening this parameter instead of the detailed proposal is a possibility that should be considered post-rfc20.
 
 ## Unresolved questions?
+
+Is it better to define nInterval within the if (fProofofStake) loop, after the check for version 0.9, rather than making a separate if statement?
