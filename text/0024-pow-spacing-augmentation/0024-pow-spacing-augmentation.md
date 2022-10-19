@@ -28,6 +28,10 @@ With this in mind, we seek methods of discouraging multiple PoW blocks in a row.
 At the same time, we do not want to affect the rewards and behaviors of the PoS mechanism, so we will not couple any portion of the PoW algorithm to awareness of PoS blocks, aside from the safe hallmarking of time as in rfc0020.
 Rather, we will use the passage of time as our sole feedback control and we will identify an appropriate dilation of the difficulty adjustment interval to accentuate difficulty spikes on tightly packed PoW blocks.
 
+More generally, rfc0020 causes the difficulty adjustment to function in a hypersensory state, where it has information from PoW and PoS blocks while only performing the exponential difficulty adjustment on PoW blocks.
+In addition to reducing strings of PoW blocks, we will simply tune the mechanism tighter by reducing the averaging window for all PoW blocks.
+We use PoS/PoW block ratio of 6 as a guideline for quantitative assessment.
+
 ## Detailed design
 
 The current algorithm for modifying the proof of work difficulty is given in pow.cpp as follows:
@@ -61,7 +65,7 @@ To maintain behavior of the exponential moving average, as well as the targeted 
 variable with separate definitions for downward PoW difficulty changes.
 We use a linear function of the actual spacing to multiply the speed with which the algorithm adjusts the difficulty.
 
-        Interval *= [(1/a)*ActualSpacing/TargetSpacing - (a-1)/a]
+        Interval *= [((a-1)/a)*ActualSpacing/TargetSpacing + 1/a]
 
 Where '*=' means 'multiply the value by'.
 
@@ -69,16 +73,23 @@ We can choose an 'a' that gives us the faster response we desire.
 Specifically, a choice of 2 or 4 corresponds to a 2x or 4x modification at ActualSpacing=0, i.e. instant PoW block strings.
 As we can sometimes see 6-8 block strings in current operation of the chain, setting a=4 would be a targetted choice to reduce these strings to 1 or 2 blocks.
 
+In addition to the augmented interval, we will also globally decrease the interval for all PoW blocks.
+The argumentation for tightening the feedback loop follows from the hypersensory nature of rfc0020.
+As such, we look to the PoS/PoW block ratio as an indicator.
+A factor of 2x is prudent, simple, and well within the window of 6 given by the block ratio.
+By dividing the interval in half on top of an a=2 protocol, we achieve the 4x target mentioned for the desired empirical results.
+
 Defining the augmentation would then appear like this (with the caveat that the rfc writer is not a cpp developer) after the declaration of nInterval:
 
         int64_t nInterval = params.nTargetTimespan / nTargetSpacing;
         if (IsProtocolVThisRFC(pindexLast->nTime)) {
-            if (!fProofOfStake){
-                if (nActualSpacing < nTargetSpacing){
-                    if (nActualSpacing > 0){
-                        nInterval *= ((1/4) + ((3/4) * nActualSpacing/nTargetSpacing));
+            if (!fProofOfStake) {
+                nInterval /= 2
+                if (nActualSpacing < nTargetSpacing) {
+                    if (nActualSpacing > 0) {
+                        nInterval *= (1/2)*(1 + nActualSpacing/nTargetSpacing);
                     } else {
-                        nInterval *= 1/4;
+                        nInterval /= 2;
                     }
                 }
             }
@@ -90,7 +101,7 @@ This implementation is continuous (i.e. it limits to 1 at ActualSpacing=TargetSp
 
  Another way of seeing the effect of this proposal is from the perspective of what the difficulty does in a clustered chain vs an evenly distributed chain.
  If there are 2 blocks in 2 times the target time, the difficulty will be constant if they are evenly spaced.
- If they are clustered at 0 and 2 times the target, then the difficulty will increase by ~4% then decrease by ~1%.
+ If they are clustered at 0 and 2 times the target, then the difficulty will increase by ~4% then decrease by ~2%.
  This trend toward higher difficulty for clustered chains is a direct consequence of adjusting the difficulty sharper on the up swing than the down swing, but it also can hopefully have secondary socially-driven effects.
  The game-theoretic behavior of miners that wish to increase their reward for a given hash rate will be to spread it out evenly in time, rather than contributing to a boom or bust cycle.
  This, together with the tighter algorithm in the wake of rfc20, should contribute strongly to a steady stream of work-distributed block rewards.
@@ -104,10 +115,10 @@ On the other hand, it should help prevent the boom and bust cycles that could be
 
 ## Alternatives
 
-We could decrease nInterval by a factor of 2 or 4, making the effective TargetTimespan a couple of days rather than a week.
+We could just decrease nInterval by a factor of 2 or 4, making the effective TargetTimespan a couple of days rather than a week.
 This would be simpler algorithmically, but would include many of the same 'if' statements.
 We could hypothetically do this with any factor or target interval of stabilization.
-However, this is just a simple linear tuning knob and will never capture the asymmetric behavior of a pow boom and bust cycle.
+However, this is just a simple linear tuning knob and will never capture the asymmetric behavior of a PoW boom and bust cycle.
 Still, tightening this parameter instead of the detailed proposal is a possibility that should be considered post-rfc20.
 
 ## Unresolved questions?
