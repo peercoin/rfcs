@@ -29,8 +29,8 @@ At the same time, we do not want to affect the rewards and behaviors of the PoS 
 Rather, we will use the passage of time as our sole feedback control and we will identify an appropriate dilation of the difficulty adjustment interval to accentuate difficulty spikes on tightly packed PoW blocks.
 
 More generally, rfc0020 causes the difficulty adjustment to function in a hypersensory state, where it has information from PoW and PoS blocks while only performing the exponential difficulty adjustment on PoW blocks.
-In addition to reducing strings of PoW blocks, we will simply tune the mechanism tighter by reducing the averaging window for all PoW blocks.
-We use PoS/PoW block ratio of 6 as a guideline for quantitative assessment.
+We will discuss changes to the difficulty adjustment interval for both the specific case of PoW strings as well as the general case of all PoW blocks.
+The additional blocktime data granted by PoS blocks through rfc0020 provides leeway to lower the interval for PoW blocks, resulting in faster difficulty changes.
 
 ## Detailed design
 
@@ -56,13 +56,13 @@ Fundamentally, we are focused on strings of blocks which are on the opposite end
 There is an expectation that rfc0020 will even out gaps of many hours between blocks and 'diffuse the difficulty bomb' resulting from difficulty that has been driven up higher than the sustainable hash rate.
 If we model the miners as an amorphous group with a target difficulty at which mining is profitable, we can assume that a large portion of miners will redirect their hash rate away from Peercoin when the difficulty over-corrects.
 With rfc0020, it is only a matter of time and PoS blocks before the difficulty lowers back toward the mean.
-As such, this proposal is not intended to function on the long average timescale, as that is covered by rfc0020.
+As such, this proposal is not intended to primarily affe on the long average timescale, as that is covered by rfc0020.
 Rather, this proposal is aimed at preventing large changes in the network, such as the additional hash power resulting from a rapid price change in the market, from causing frequent pow strings while the difficulty rises to equilibrium.
 
-Toward this end, we move the difficulty up faster when blocks come in before the target.
+Toward this end, we move the difficulty faster when blocks come in before the target.
 As such, we will use a piecewise augmentation of the interval for more aggressive normalization of the difficulty only when tightening.
-To maintain behavior of the exponential moving average, as well as the targeted spacing, we should augment either the timespan or the interval.  As an example, we will augment the locally defined 'nInterval' 
-variable with separate definitions for downward PoW difficulty changes.
+To maintain behavior of the exponential moving average, as well as the targeted spacing, we should augment either the timespan or the interval.
+As an example, we will augment the locally defined 'nInterval' variable with separate definitions for PoW difficulty changes in one direction.
 We use a linear function of the actual spacing to multiply the speed with which the algorithm adjusts the difficulty.
 
         Interval *= [((a-1)/a)*ActualSpacing/TargetSpacing + 1/a]
@@ -71,11 +71,12 @@ Where '*=' means 'multiply the value by'.
 
 We can choose an 'a' that gives us the faster response we desire.
 Specifically, a choice of 2 or 4 corresponds to a 2x or 4x modification at ActualSpacing=0, i.e. instant PoW block strings.
-As we can sometimes see 6-8 block strings in current operation of the chain, setting a=4 would be a targetted choice to reduce these strings to 1 or 2 blocks.
+Empirically, we sometimes see 6-8 block strings in current operation of the chain.
+Therefore, a 4x modification (e.g. a=4) would be a targetted choice to reduce these strings to 1 or 2 blocks.
 
 In addition to the augmented interval, we will also globally decrease the interval for all PoW blocks.
 The argumentation for tightening the feedback loop follows from the hypersensory nature of rfc0020.
-As such, we look to the PoS/PoW block ratio as an indicator.
+Toward this end, we look to the PoS/PoW block ratio as an indicator.
 A factor of 2x is prudent, simple, and well within the window of 6 given by the block ratio.
 By dividing the interval in half on top of an a=2 protocol, we achieve the 4x target mentioned for the desired empirical results.
 
