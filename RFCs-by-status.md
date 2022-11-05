@@ -11,6 +11,8 @@ A list of all RFCs by their current status.
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
  - [#0020 Proof-of-Work Difficulty on PoS Blocks](./text/0020-pow-difficulty-on-pos-blocks/0020-pow-difficulty-on-pos-blocks.md)
+ - [#0024 PoW Spacing Augmentation](./text/0024-pow-spacing-augmentation/0024-pow-spacing-augmentation.md)
+ - [#0025 PoS Only Confirmations](./text/0025-pos-only-confirmations/0025-pos-only-confirmations.md)
 
 ## Agreed RFCs
 
@@ -27,6 +29,7 @@ A list of all RFCs by their current status.
  - [#0018 Proof-of-Stake Reward Adjustment](./text/0018-pos-reward/0018-pos-reward.md)
  - [#0019 Proof-of-Work Block Spacing](./text/0019-pow-block-spacing/0019-pow-block-spacing.md)
  - [#0022 Proof-of-Work reward cap](./text/0022-pow-reward-cap/0022-pow-reward-cap.md)
+ - [#0023 Pay-to-Provable-Unspendable-Tag Outputs (P2PUT)](./text/0023-pay-to-provable-unspendable-tag/0023-pay-to-provable-unspendable-tag.md)
 
 ## Rejected RFCs
 
@@ -39,4 +42,4 @@ A list of all RFCs by their current status.
  - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
 
 
-(Last updated _Wed 27 Oct 2021 01:24:01 PM CEST_ at REV [7c6eb2f](https://github.com/peercoin/rfcs/commit/7c6eb2f8041b9d3c198bb24c4fb2b370aee5f542))
+(Last updated _sub,  5.11.2022.  10:27:26 CET_ at REV [84e7e82](https://github.com/peercoin/rfcs/commit/84e7e82ccc20a9be2035c97c4945a2d0199760ef))

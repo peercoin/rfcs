@@ -1,6 +1,6 @@
 # Pay-to-Provable-Unspendable-Tag Outputs (P2PUT)
 
-- Status: proposed 
+- Status: implemented 
 - Type: new feature 
 - Start Date: 25-06-2022 
 - Discussion: (fill me in with link to RFC discussion - shepherd will complete this) 
