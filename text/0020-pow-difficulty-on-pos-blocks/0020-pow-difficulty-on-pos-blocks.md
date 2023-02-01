@@ -1,6 +1,6 @@
 # Proof-of-Work Difficulty on PoS Blocks
 
-- Status: proposed
+- Status: implemented
 - Type: protocol adjustment
 - Related components: 
 - Start Date: 07-17-2020
