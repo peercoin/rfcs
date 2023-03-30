@@ -12,7 +12,7 @@ A list of all RFCs by their current status.
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
  - [#0024  PoW Spacing Augmentation](./text/0024-pow-spacing-augmentation/0024-pow-spacing-augmentation.md)
  - [#0025 PoS Only Confirmations](./text/0025-pos-only-confirmations/0025-pos-only-confirmations.md)
- - [#0026 Max Tx Size Consensus Limit](./text/0026-max-tx-size-consensus-limit.md)
+ - [#0026 Max Tx Size Consensus Limit](./text/0026-max-tx-size-consensus-limit/0026-max-tx-size-consensus-limit.md)
 
 ## Agreed RFCs
 
