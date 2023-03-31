@@ -38,10 +38,10 @@ exceeds 100KB. To simplify calculation of the total witness data for each input,
 it shall be calculated by summing the size of each witness element in the stack
 without including varints.
 
-The `IsWitnessStandard` function in `src/policy/policy.cpp` shall be modified to
-return false under the new non-standard condition. The rule shall apply
-regardless of the witness program version. Any changes shall apply to standard
-transaction policy only and must not affect consensus.
+The `IsWitnessStandard` function in `src/policy/policy.cpp` shall return false
+under the new non-standard condition. The rule shall apply regardless of the
+witness program version. Any changes shall only apply to standard transaction
+policy and must not affect consensus.
 
 ## Drawbacks
 
