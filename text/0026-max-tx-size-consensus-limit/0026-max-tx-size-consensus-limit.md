@@ -4,7 +4,7 @@
 - Type: protocol consensus rule
 - Related components: `consensus`
 - Start Date: 28-Mar-2023
-- Discussion: https://github.com/peercoin/rfcs/issues/53
+- Discussion: https://github.com/peercoin/rfcs/issues/53, https://talk.peercoin.net/t/rfc-0026-max-tx-size-consensus-limit/16031
 - Supersedes: N/A
 - Superseded by: N/A
 - Author: sandakersmann
