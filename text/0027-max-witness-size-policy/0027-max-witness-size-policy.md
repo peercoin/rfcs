@@ -3,7 +3,7 @@
 - Status: proposed
 - Type: policy change
 - Start Date: 31-03-2023
-- Discussion: (fill me in with link to RFC discussion - shepherd will complete this) 
+- Discussion: https://github.com/peercoin/rfcs/issues/57, https://talk.peercoin.net/t/rfc-0027-maximum-witness-size-policy/16038
 - Author: MatthewLM
 
 ## Summary
