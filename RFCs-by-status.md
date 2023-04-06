@@ -13,7 +13,6 @@ A list of all RFCs by their current status.
  - [#0024  PoW Spacing Augmentation](./text/0024-pow-spacing-augmentation/0024-pow-spacing-augmentation.md)
  - [#0025 PoS Only Confirmations](./text/0025-pos-only-confirmations/0025-pos-only-confirmations.md)
  - [#0026 Max Tx Size Consensus Limit](./text/0026-max-tx-size-consensus-limit/0026-max-tx-size-consensus-limit.md)
- - [#0027 Maximum Witness Size Policy](./text/0027-max-witness-size-policy/0027-max-witness-size-policy.md)
 
 ## Agreed RFCs
 
@@ -33,6 +32,7 @@ A list of all RFCs by their current status.
  - [#0020 Proof-of-Work Difficulty on PoS Blocks](./text/0020-pow-difficulty-on-pos-blocks/0020-pow-difficulty-on-pos-blocks.md)
  - [#0022 Proof-of-Work reward cap](./text/0022-pow-reward-cap/0022-pow-reward-cap.md)
  - [#0023 Pay-to-Provable-Unspendable-Tag Outputs (P2PUT)](./text/0023-pay-to-provable-unspendable-tag/0023-pay-to-provable-unspendable-tag.md)
+ - [#0027 Maximum Witness Size Policy](./text/0027-max-witness-size-policy/0027-max-witness-size-policy.md)
 
 ## Rejected RFCs
 
