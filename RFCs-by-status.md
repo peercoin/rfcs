@@ -44,4 +44,4 @@ A list of all RFCs by their current status.
  - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
 
 
-(Last updated _sri,  1.02.2023.  15:14:45 CET_ at REV [fb990bf](https://github.com/peercoin/rfcs/commit/fb990bfdc3d297be9207e7c81aa478a5413d1f26))
+(Last updated _sri, 19.04.2023.  11:25:16 CEST_ at REV [935c5eb](https://github.com/peercoin/rfcs/commit/935c5eb4ff869a69f25006c15dc4d0a7fd0f00ea))
