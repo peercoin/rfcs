@@ -96,7 +96,7 @@ of the time so it provides a close approximation.
 
 The security level can be closely approximated as:
 
-$$ SecurityLevel = \frac{2^{32} \cdot Diff}{MaxDayWeight \cdot Supply \cdot BlockIntervalSeconds} $$
+$$ SecurityLevel \approx \frac{2^{32} \cdot Diff}{MaxDayWeight \cdot Supply \cdot BlockIntervalSeconds} $$
 
 The maximum difficulty is relative to supply according to the $MaxDayWeight$
 , $BlockIntervalSeconds$ and a power of 2 which is used to calculate mint
@@ -141,7 +141,7 @@ $$ | \log(\frac{x}{y}) | = | \log(\frac{x}{y-1}) | $$
 
 The resulting $y$ is given by:
 
-$$ y = \frac{1}{2}\left( \sqrt{4x^{2}+1}+1 \right) $$
+$$ y = \frac{\sqrt{4x^{2}+1}+1}{2} $$
 
 Since $y$ and $y-1$ provide an equal distance from the optimum, the optimal
 split can be determined by whatever integer lies between them. Therefore
