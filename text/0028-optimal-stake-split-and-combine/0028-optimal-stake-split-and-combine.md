@@ -73,7 +73,7 @@ A simulation within the notebook has shown that the predicted rewards are made
 with good accuracy with increasing variance for low output values and an
 under-estimation for larger values. The under-estimation is likely due to
 compounding effects of large outputs that mint often. The error is too small to
-be concerned about (under 5bps). The optimum output value is in close alignment.
+be concerned about (under 0.05%). The optimum output value is in close alignment.
 
 ### Normalising for Supply
 
