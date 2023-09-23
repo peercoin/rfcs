@@ -10,8 +10,8 @@
 ## Summary
 
 To improve chain security and provide fair rewards for minters, coinstake
-transactions shall split and combine outputs to target an output size that
-provides an average reward close to the maximum possible reward for the current
+transactions shall split and combine outputs to target output amounts that
+provide an average reward close to the maximum possible reward for the current
 supply and difficulty.
 
 ## Conventions
@@ -24,7 +24,7 @@ supply and difficulty.
     kernel hash target. Currently this is 60 days.
 - "Supply" is the current supply of PPC as determined by the
     client.
-- "OptimumSize" is the optimum output size to maximise reward in PPC.
+- "OptimumAmount" is the optimum output amount to maximise reward in PPC.
 - "SecurityLevel" is the fraction of supply that would need to be minted
     continuously at the lowest output value to meet the current PoS difficulty.
 
@@ -38,52 +38,54 @@ high chance of taking too long to mint.
 However, this behaviour relies on a stochastic process because mint timing is
 random over a probability distribution. This may lead to smaller outputs
 splitting and larger outputs not splitting by chance. It also does not determine
-what the true optimal output size is for maximising minting rewards.
+what the true optimal output amount is for maximising minting rewards.
 
 Coinstakes also combine outputs of the same address that have reached maximum
 probability where the stake amount is less than one-third of the PoW reward. The
 PoW reward is an irrelevant measure. Taken together, the split and combine logic
-does not target output sizes that are truly optimal.
+does not target output amounts that are truly optimal.
 
-The solution in this RFC targets output sizes near to the economic optimum. The
-optimum is the output size that produces the highest expected return when
-continuously minting. The changes proposed in this RFC splits large stakes into
-more than two outputs which avoids requiring multiple splits.
+The solution in this RFC targets producing output amounts near to the economic
+optimum subject to a minimum target of 10 PPC. The optimum is the output amount
+that produces the highest expected return when continuously minting. The changes
+proposed in this RFC splits large stakes into more than two outputs which avoids
+requiring multiple splits.
 
-Combination within coinstakes only includes inputs with values that are a small
+Combination within coinstakes only includes inputs with amounts that are a small
 fraction of the optimum to restrict the loss of chain security.
 
 ## Background
 
 ### Calculating Rewards
 
-It is possible to determine the expected reward for a given output size,
+It is possible to determine the expected reward for a given output amount,
 difficulty and static reward. The minting probabilities can be calculated for an
-output size across a number of days into the future. The expected reward can be
-calculated by the probability-weighted average of possible rewards over these
+output amount across a number of days into the future. The expected reward can
+be calculated by the probability-weighted average of possible rewards over these
 days.
 
 A [Jupyter
 notebook](https://github.com/MatthewLM/OptimumPeercoinUTXO/blob/master/OptimumUTXO.ipynb)
 has been produced that can calculate expected rewards and determine the optimal
-output size to maximise reward using a peak-finding algorithm. The optimal size
-assumes continuous minting without orphan blocks (rare).
+output amount to maximise reward using a peak-finding algorithm. The optimal
+amount assumes continuous minting without orphan blocks (rare).
 
 A simulation within the notebook has shown that the predicted rewards are made
-with good accuracy with increasing variance for low output values and an
-under-estimation for larger values. The under-estimation is likely due to
+with good accuracy with increasing variance for low output amounts and an
+under-estimation for larger amounts. The under-estimation is likely due to
 compounding effects of large outputs that mint often. The error is too small to
-be concerned about (under 0.05%). The optimum output value is in close alignment.
+be concerned about (under 0.05%). The optimum output amount is in close
+alignment.
 
 ### Normalising for Supply
 
 A function to estimate rewards can be determined from the current difficulty and
-static reward value:
+static reward amount:
 
-$$ OptimumSize = f_{1}(Diff, Static) $$
+$$ OptimumAmount = f_{1}(Diff, Static) $$
 
 It is possible to simplify the function to a single input variable by
-normalising the optimum size as a fraction of supply and the difficulty as a
+normalising the optimum amount as a fraction of supply and the difficulty as a
 fraction of maximum difficulty. The latter is referred to as the "security
 level" or "security parameter". When doing this, the static reward is no longer
 required.
@@ -102,10 +104,10 @@ The maximum difficulty is relative to supply according to the $MaxDayWeight$
 , $BlockIntervalSeconds$ and a power of 2 which is used to calculate mint
 probabilities in the client.
 
-Using the approximated security level, the optimum size can be determined by a
+Using the approximated security level, the optimum amount can be determined by a
 new function $f_{2}$ that determines the optimum fraction of supply:
 
-$$ OptimumSize = f_{2}(SecurityLevel)\cdot Supply $$
+$$ OptimumAmount = f_{2}(SecurityLevel)\cdot Supply $$
 
 The $f_{2}$ function can use the $f_{1}$ function after determining the
 difficulty and static reward from the supply, but the result is invariant to the
@@ -115,14 +117,14 @@ required to this new function.
 ### Regression Model
 
 An OLS regression model found in the notebook can closely predict the optimum
-size as a fraction of supply from the security level.
+amount as a fraction of supply from the security level.
 
 Root terms in the form of $x^{1/i}$ were added with increasing values of $i$
 until the AIC number stopped falling. The relationship between security level
 and the optimum fraction tends towards being linear and roots predict this
 relationship well. All terms in the model are highly statistically significant.
 
-This regression model is used to calculate the optimum output size in this RFC.
+This regression model is used to calculate the optimum output amount in this RFC.
 
 Alternative coefficients are provided for testnet. Mainnet coefficients can be
 used, though this will lead to inaccurate estimated optimums which can be up to
@@ -130,9 +132,9 @@ used, though this will lead to inaccurate estimated optimums which can be up to
 
 ### Optimal Splitting
 
-Output values can be split in a coinstake to approach the optimum value. An
+Output amounts can be split in a coinstake to approach the optimum amount. An
 output can be split into a number of new outputs that minimises the logarithmic
-distance between the resulting output values and the optimum.
+distance between the resulting output amounts and the optimum.
 
 The point at which the logarithmic distance is equal between the number of split
 outputs $y$ and $y-1$ is given by:
@@ -153,11 +155,12 @@ The client code shall have the files `src/wallet/optimum_mint.h` and
 `src/wallet/optimum_mint.cpp` containing new functions and constants.
 
 A constant named `RECOMBINE_DIVISOR` shall be set to 10. This shall divide the
-optimum value to determine the threshold under which small outputs can be
+optimum amount to determine the threshold under which small outputs can be
 combined.
 
-A constant named `MIN_COINSTAKE_AMOUNT` shall be set to `10*COIN` to be the
-floor value for coinstake output amounts.
+A constant named `MIN_TARGET_OUTPUT_AMOUNT` shall be set to `10*COIN`. This
+shall be the minimum targeted output amount. The determined optimum amount shall
+be clipped to this minimum value.
 
 A constant named `MAX_COINSTAKE_INPUTS` shall be set to 4 to be the maximum
 number of inputs that can be included in a coinstake transaction. This ensures
@@ -167,7 +170,7 @@ limit.
 ### SecurityToOptimalFraction
 
 A `double SecurityToOptimalFraction(double security);` function shall take the
-security level and return the fraction of supply for the optimal output size.
+security level and return the fraction of supply for the optimal output amount.
 The calculation must be determined from the linear regression model. The
 coefficients for the current network parameters are as follows:
 
@@ -201,11 +204,11 @@ Alternative coefficients may be used for the current testnet parameters:
  security^(1/8): 1.63578550998557
 ```
 
-### CalcOptimalOutputSize
+### CalcTargetOutputAmount
 
-A `CAmount CalcOptimalOutputSize(double difficulty, CAmount supply)` function shall
-calculate the optimal output size from the difficulty and supply using the
-`SecurityToOptimalFraction` function. The security level shall be calculated
+A `CAmount CalcTargetOutputAmount(double difficulty, CAmount supply)` function
+shall calculate the optimal output amount from the difficulty and supply using
+the `SecurityToOptimalFraction` function. The security level shall be calculated
 from the difficulty and supply using:
 
 ```
@@ -215,32 +218,32 @@ double securityLevel = (2 << 31)*difficulty / maxDayWeight / supply / nStakeTarg
 The `maxDayWeight` shall be determined by the difference between `nStakeMinAge`
 and `nStakeMaxAge` in days.
 
-The result shall be multiplied by the supply and clipped to at least
-`MIN_COINSTAKE_AMOUNT`.
+The result shall be multiplied by the supply and clipped to be at least
+`MIN_TARGET_OUTPUT_AMOUNT`.
 
-### CalcOptimalSplit
+### CalcSplitDivisor
 
-A `int CalcOptimalSplit(CAmount target, CAmount current)` function shall take
-the target output size and the current total value to determine how many outputs
-should be created to evenly split the amount. This calculation shall be done
-according to the following expression:
+A `int CalcSplitDivisor(CAmount target, CAmount current)` function shall take
+the target output amount and the current total amount to determine how many
+outputs should be created to evenly split the amount. This calculation shall be
+done according to the following expression:
 `floor((sqrt(4*((current/target)^2)+1) + 1) / 2)`.
 
 ### CreateCoinStake
 
 The `CreateCoinStake` function in `src/wallet/wallet.cpp` shall be modified.
 
-`nStakeSplitAge` shall be removed and replaced with `nOptimalOutputSize` set by
-a call to `CalcOptimalOutputSize`. `nCombineThreshold` shall be set to
-`nOptimalOutputSize / RECOMBINE_DIVISOR`.
+`nStakeSplitAge` shall be removed and replaced with `nTargetOutputAmount` set by
+a call to `CalcTargetOutputAmount`. `nCombineThreshold` shall be set to
+`nTargetOutputAmount / RECOMBINE_DIVISOR`.
 
 When adding inputs, they shall no longer be skipped if they have not reached
 maximum probability. Inputs shall continue to be added when the total input
-value goes above `nCombineThreshold`. `nCombineThreshold` shall only apply to
+amount goes above `nCombineThreshold`. `nCombineThreshold` shall only apply to
 individual inputs. The number of inputs added will be limited to
 `MAX_COINSTAKE_INPUTS`.
 
-`CalcOptimalSplit` shall be used to determine how many outputs should be
+`CalcSplitDivisor` shall be used to determine how many outputs should be
 included in the coinstake. The number of outputs shall be limited to how many
 can be added to the coinstake without exceeding 1KB. This is a simple
 calculation given that P2PKH and P2WPKH outputs have a known size.
@@ -249,9 +252,9 @@ If the `splitcoins` option is false, coins shall not be split.
 
 ## Drawbacks
 
-The optimum size assumes continuous minting and no stale blocks. Stale blocks
+The optimum amount assumes continuous minting and no stale blocks. Stale blocks
 are currently rare and do not pose a major concern. Occasional minters may be
-better served with higher output sizes that are more likely to mint before the
+better served with higher output amounts that are more likely to mint before the
 coinage reward is capped at 365 days. However, continuous minting is important
 for security and therefore users should be encouraged to maximise rewards
 through leaving their client to mint continuously.
@@ -271,11 +274,11 @@ done to retain the chain security offered by smaller outputs. This may be
 reconsidered after chain parameters have been altered to favour small outputs
 and/or reduce the amount of security lost at the economic optimum.
 
-The optimal output size could be determined by taking the probability-weighted
-average of possible returns for a given output size and then using a
+The optimal output amount could be determined by taking the probability-weighted
+average of possible returns for a given output amount and then using a
 peak-finding algorithm to find the optimal. This is already provided in the
 Jupyter notebook. This would provide a more analytical calculation that can find
-the optimal output sizes for different network parameters. However it does add
+the optimal output amounts for different network parameters. However it does add
 time and code complexity with loops. A closed-form analytical solution hasn't
 been found that can take into account all variables. The regression model works
 well for given network parameters and provides a straight-forward expression.
