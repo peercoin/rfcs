@@ -63,16 +63,15 @@ PoW difficulty change on PoS blocks (rfc-0020) introduces a cross term in the EM
 This is due to splitting long PoW difficulty changes into two components: before the PoS block preceding the discovered PoW block, and the short span after.
 This can be compared to 'before rfc-0020' like this:
 
-`[(t-1)+2(a+b)]/(t+1) = [(t-1)+2a]/(t+1)*[(t-1)+2(b+1)]/(t+1) - 2ab/(t+1)^2`
+`[(t-1)+2(a+b)]/(t+1) = [(t-1)+2a]/(t+1)*[(t-1)+2(b+1)]/(t+1) - 2(a-1)b/(t+1)^2`
 
-The `2ab` cross term is at second order in `1/(nInterval+1)`.
+The `2(a-1)b` cross term is at second order in `1/(nInterval+1)`.
 We often assume `a` to be larger than `b`, as `a` represents a distance on order of PoW block spacing and b represents a distance on order of PoS block spacing, but in full generality we cannot assume such things.
-Still, this gives us an order of magnitude to examine, and pursue an `nPoWTargetTimespan` t (in units of hours because that is the PoW `nTargetSpacing`) such that:
+Still, this gives us an order of magnitude to examine, e.g. in the extreme case of a coincidental 24 hour PoW block and a 1 hour PoS block, and pursue an `nPoWTargetTimespan` t (all in units of hours because that is the PoW `nTargetSpacing`) such that:
 
-`2 * 1 hour * 0.1667 hours / (t hours + 1)^2 << 1`
+`2 * 23 hours * 1 hour / (t hours + 1)^2 << 1`
 
-With `t = 36 hours`, this comes out to `2.435e-4 << 1`, which is appropriate.
-We can even imagine an extreme case where PoS and PoW blocks are both an order of magnitude off target at the same time, and still we would be at `0.02435 << 1`.
+With `t = 36 hours`, even this extreme case comes out to `0.0336 << 1`, which is appropriate.
 
 ### Drawback 3: Nonlinearity
 The bare minimum of nInterval is 1 block, wherein we would straightforwardly multiply the difficulty by the distance of the actual time away from the target time.
@@ -91,12 +90,12 @@ As such, we see that having a smoothing `nInterval` that greatly exceeds 1 is ne
 
 ## Alternatives
 
-Let us perform the above calculations for 24 hours.
-The equation is a second order equation, so we should expect `1.5^2=2.25` increase in cross term.
+Let us perform the above extreme case calculations for a 24 hour nPoWTargetTimespan.
+The equation is a second order equation, so we should expect `1.5^2=2.25` increase in cross term, but still less than an order of magnitude:
 
-`2 * 1 hour * 0.1667 hours / (24 hours + 1)^2 = 5.334e-4`.
+`2 * 23 hours * 1 hour / (24 hours + 1)^2 = 0.0736 << 1`.
 
-As such, 24 hours also appears to be a viable alternative that will not make the cross term significant.
+As such, 24 hours also appears to be a viable alternative that will not make the cross term horribly significant.
 However, this does not negate the additional nonlinearity effects.
 
 ## Unresolved questions?
