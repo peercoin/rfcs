@@ -63,7 +63,7 @@ PoW difficulty change on PoS blocks (rfc-0020) introduces a cross term in the EM
 This is due to splitting long PoW difficulty changes into two components: before the PoS block preceding the discovered PoW block, and the short span after.
 This can be compared to 'before rfc-0020' like this:
 
-`[(t-1)+2(a+b)]/(t+1) = [(t-1)+2a]/(t+1)*[(t-1)+2b]/(t+1) - 2ab/(t+1)^2`
+`[(t-1)+2(a+b)]/(t+1) = [(t-1)+2a]/(t+1)*[(t-1)+2(b+1)]/(t+1) - 2ab/(t+1)^2`
 
 The `2ab` cross term is at second order in `1/(nInterval+1)`.
 We often assume `a` to be larger than `b`, as `a` represents a distance on order of PoW block spacing and b represents a distance on order of PoS block spacing, but in full generality we cannot assume such things.
