@@ -67,11 +67,11 @@ This can be compared to 'before rfc-0020' like this:
 
 The `2ab` cross term is at second order in `1/(nInterval+1)`.
 We often assume `a` to be larger than `b`, as `a` represents a distance on order of PoW block spacing and b represents a distance on order of PoS block spacing, but in full generality we cannot assume such things.
-Still, this gives us an order of magnitude to examine, and pursue a time interval t (in units of hours because that is the PoW target spacing) such that:
+Still, this gives us an order of magnitude to examine, and pursue an `nPoWTargetTimespan` t (in units of hours because that is the PoW `nTargetSpacing`) such that:
 
 `2 * 1 hour * 0.1667 hours / (t hours + 1)^2 << 1`
 
-With `t=36 hours`, this comes out to `2.435e-4 << 1`, which is appropriate.
+With `t = 36 hours`, this comes out to `2.435e-4 << 1`, which is appropriate.
 We can even imagine an extreme case where PoS and PoW blocks are both an order of magnitude off target at the same time, and still we would be at `0.02435 << 1`.
 
 ### Drawback 3: Nonlinearity
@@ -83,7 +83,7 @@ In calculating the resulting difficulty in this 1-block nInterval case, we get:
 
 `0.5 * 1.5 = 0.75 != 1`
 
-As such, we see that having an nInterval that greatly exceeds the block spacing is necessary to avoid additional nonlinear effects.
+As such, we see that having a smoothing `nInterval` that greatly exceeds 1 is necessary to avoid additional nonlinear effects.
 
 `t hours >> 1`
 
@@ -103,7 +103,7 @@ However, this does not negate the additional nonlinearity effects.
 
 How much nonlinearity can we tolerate?
 We are trying to ensure that rapidly oscillating hash power does not substantially alter the average block time.
-The reason this is important in Peercoin is because while Bitcoin uses `Median Time Past` DAA, Peercoin uses an EMA.
+The reason this is important in Peercoin is because while Bitcoin uses 'Median Time Past' DAA, Peercoin uses an EMA.
 As such, the overall median time is not assured, given by the above discussions on nonlinearity when nActualSpacing is on the order of nPoWTargetTimespan.
-The author has posited that 36 >> 1, choosing a human-relevant number corresponding to 1.5 days.
-This is clearly not exact, but is there any definitive calculation that can be done to accurately define how much error in median block time we can tolerate?
+The author has posited that `36 >> 1`, choosing a human-relevant number corresponding to 1.5 days.
+This is not an exact choice, but is there any definitive calculation that can be done to accurately define how much error in median block time we can tolerate?
