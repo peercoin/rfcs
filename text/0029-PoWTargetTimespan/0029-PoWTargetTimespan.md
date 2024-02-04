@@ -1,4 +1,4 @@
-# Proof-of-Work Difficulty on PoS Blocks
+# PoWTargetTimespan
 
 - Status: proposed
 - Type: protocol adjustment
