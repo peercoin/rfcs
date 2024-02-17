@@ -1,4 +1,4 @@
-# PoWTargetTimespan
+# PoW ASERT
 
 - Status: proposed
 - Type: protocol adjustment
