@@ -13,6 +13,9 @@ A list of all RFCs by their current status.
  - [#0024  PoW Spacing Augmentation](./text/0024-pow-spacing-augmentation/0024-pow-spacing-augmentation.md)
  - [#0025 PoS Only Confirmations](./text/0025-pos-only-confirmations/0025-pos-only-confirmations.md)
  - [#0026 Max Tx Size Consensus Limit](./text/0026-max-tx-size-consensus-limit/0026-max-tx-size-consensus-limit.md)
+ - [#0028 Optimal Stake Split and Combine](./text/0028-optimal-stake-split-and-combine/0028-optimal-stake-split-and-combine.md)
+ - [#0029 PoWTargetTimespan](./text/0029-PoWTargetTimespan/0029-PoWTargetTimespan.md)
+ - [#0030 PoW ASERT](./text/0030-PoW-ASERT/0030-PoW-ASERT.md)
 
 ## Agreed RFCs
 
