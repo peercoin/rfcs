@@ -32,7 +32,7 @@ It also means that 'tau' number of blocks will double the difficulty (in units o
 While Peercoin's PoS has an initial maturation period on the order of `4*nTargetTimespan`, Peercon's PoW has no such sunk cost of time.
 As such, PoW hashpower comes and goes freely, often oscillating dramatically within the period of a day.
 Using a more responsive DAA will allow the protocol to adjust more easily to such changes.
-ASERT allows for a more stable DAA when responsivity is turned up, due to the basic property that `2^(a)+2^(b)=2^(a+b)` without the nonlinearities described in RFC-0029.
+ASERT allows for a more stable DAA when responsivity is turned up, due to the basic property that `2^(a)*2^(b)=2^(a+b)` without the nonlinearities described in RFC-0029.
 The non-recursive nature of ASERT will also make RFC-0020, PoW difficulty on PoS blocks, easier to implement by allowing for intermediate difficulty changes without iterating.
 BCH has done quite a bit of research on this topic, having implemented aserti3-2d in November 2020 in the Bitcoin Cash ABC fork.
 However, the context of 1 hour target blocks and PoS intermediate difficulty adjustments makes Peercoin's control system unique from BCH.
@@ -93,10 +93,15 @@ This gets complicated because this noise floor is itself noisy because the PoS b
 But let's take just take some simplistic assumptions, calling upon the PoS block spacing twice: once for reducing the noise of the control loop through RFC-0020, and again for the minimum frequency where we care about having too many pow blocks.
 E.g. we do not care so much if we get a string like: PoW-PoW-PoS-PoW-PoW-PoS-PoW-PoW, even if the timestamps in this case would normally be untentable to the standard analysis of noise levels used by the BCH community to characterize ASERT.
 
-As such, we will use a DNL noise floor of `sqrt(0.1667/Tau)` to correspond to the 1/6 target block spacing for the PoS:PoW ratio through RFC-0020.
-Next, we will compare this to the 1/6 target block spacing line for where we care about having frequent blocks.
-This gives a readily solvable equation: `1/6 = sqrt(1/6 * 1/Tau) T.F. Tau = 6`.
-As such, 6 hours should be seen a bare minimum to avoid having regular PoW strings through noise alone.
+As such, we will use a DNL noise floor of `sqrt(0.1667/Tau)` to correspond to the 1/6 target block spacing for the PoW:PoS ratio through RFC-0020.
+Next, we will seek the overlap between this shot noise and the occurance of PoS blocks at 1/root(Hz): `sqrt(0.1667)`.
+This presents us with a figure of merit: `x = PoW/PoS_block_ratio * sqrt(1/Tau)`.
+This figure is in some regards a kind of probability for collision within the framework of the dual nature of the blocks.
+We will take e.g. 6 periods and ask for the likelihood of any collision: `1-(1-x)^6`
+
+Some values include, when PoS blocks are 10 min, in format `{Tau hours; 6 period collision likelihood}`:
+`{6;34.4%},{12;25.6%},{24;18.8%},{48;13.6%}`.
+If PoS block times are 5 min: `{6;18.8%},{12;13.6%},{24;9.8%},{48;7.0%}`
 
 On the other hand, we can just look empirically at the longer end of Tau and ask how it would respond to abrupt changes in hash rate.
 `2**(1/48) - 1 = 1.45%` is the most the difficulty can increase for 2 blocks with 0 time between them for BCH's choice of 48 hour Tau.
@@ -106,8 +111,8 @@ While we do not want to take empirical evidence of price change as gospel, we ca
 
 We seek e.g. the condition: `2**(1/Tau) - 1 = 10% T.F. Tau = 7.3`.
 This implies that if we want these kinds of changes to happen after just a single pair of blocks, we need to tune all the way down to our lower limit.
-However, we have tolerance for just a pair of PoW blocks, as was already stated.
-So in reality, we can multiply this condition by the number of blocks we have tolerance for (minus 1).
+However, we have tolerance for a pair of PoW blocks, as was already stated.
+Because of the nature of the function, to generalize we can multiply this condition by the number of blocks we have tolerance for (minus 1).
 If we then apply a sense of rounding for human readability, we can somewhat clearly state an alternative:
 'If we can tolerate 3 PoW blocks in a row during dramatic price changes, then Tau = 12 hours is a good choice.
 If we can allow 4 or 5 PoW blocks in a row during extreme events, then Tau = 24 hours would be a more overall stable choice.'
