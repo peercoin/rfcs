@@ -1,4 +1,4 @@
-PoS Only Confirmations
+# PoS Only Confirmations
 
 - Status: proposed
 - Type: protocol adjustment

@@ -1,4 +1,4 @@
- PoW Spacing Augmentation
+# PoW Spacing Augmentation
 
 - Status: proposed
 - Type: protocol adjustment
