@@ -36,4 +36,4 @@ generate 'rejected'
 
 echo ""
 echo ""
-echo "(Last updated _`date`_ at REV [`git rev-parse --short HEAD`](https://github.com/peercoin/rfcs/commit/`git rev-parse HEAD`))"
+echo "(Last updated _`date -u`_ at REV [`git rev-parse --short HEAD`](https://github.com/peercoin/rfcs/commit/`git rev-parse HEAD`))"

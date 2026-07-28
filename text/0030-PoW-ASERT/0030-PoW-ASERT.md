@@ -1,6 +1,6 @@
 # PoW ASERT
 
-- Status: proposed
+- Status: implemented
 - Type: protocol adjustment
 - Related components: pow.cpp, chainparams.cpp
 - Start Date: 02-04-2024

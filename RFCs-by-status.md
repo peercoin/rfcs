@@ -10,12 +10,11 @@ A list of all RFCs by their current status.
  - [#0002 Coinstake Transaction Split](./text/0002-split-coinstake-transaction/0002-split-coinstake-transaction.md)
  - [#0003 Multi-signature Minting](./text/0003-multisig-minting/0003-multisig-minting.md)
  - [#0012 Cold Minting](./text/0012-cold-minting/0012-cold-minting.md)
- - [#0024  PoW Spacing Augmentation](./text/0024-pow-spacing-augmentation/0024-pow-spacing-augmentation.md)
+ - [#0024 PoW Spacing Augmentation](./text/0024-pow-spacing-augmentation/0024-pow-spacing-augmentation.md)
  - [#0025 PoS Only Confirmations](./text/0025-pos-only-confirmations/0025-pos-only-confirmations.md)
  - [#0026 Max Tx Size Consensus Limit](./text/0026-max-tx-size-consensus-limit/0026-max-tx-size-consensus-limit.md)
- - [#0028 Optimal Stake Split and Combine](./text/0028-optimal-stake-split-and-combine/0028-optimal-stake-split-and-combine.md)
  - [#0029 PoWTargetTimespan](./text/0029-PoWTargetTimespan/0029-PoWTargetTimespan.md)
- - [#0030 PoW ASERT](./text/0030-PoW-ASERT/0030-PoW-ASERT.md)
+ - [#0031 PoW Discontinuation](./text/0031-pow-discontinuation/0031-pow-discontinuation.md)
 
 ## Agreed RFCs
 
@@ -36,6 +35,8 @@ A list of all RFCs by their current status.
  - [#0022 Proof-of-Work reward cap](./text/0022-pow-reward-cap/0022-pow-reward-cap.md)
  - [#0023 Pay-to-Provable-Unspendable-Tag Outputs (P2PUT)](./text/0023-pay-to-provable-unspendable-tag/0023-pay-to-provable-unspendable-tag.md)
  - [#0027 Maximum Witness Size Policy](./text/0027-max-witness-size-policy/0027-max-witness-size-policy.md)
+ - [#0028 Optimal Stake Split and Combine](./text/0028-optimal-stake-split-and-combine/0028-optimal-stake-split-and-combine.md)
+ - [#0030 PoW ASERT](./text/0030-PoW-ASERT/0030-PoW-ASERT.md)
 
 ## Rejected RFCs
 
@@ -47,4 +48,4 @@ A list of all RFCs by their current status.
  - [#0021 Proof-of-Work SHA3 for Energy Efficiency](./text/0021-pow-sha3/0021-pow-sha3.md)
 
 
-(Last updated _sri, 19.04.2023.  11:25:16 CEST_ at REV [935c5eb](https://github.com/peercoin/rfcs/commit/935c5eb4ff869a69f25006c15dc4d0a7fd0f00ea))
+(Last updated _Tue 28 Jul 15:48:30 UTC 2026_ at REV [0a8cc10](https://github.com/peercoin/rfcs/commit/0a8cc108e1c4f83106c4368cdd7dbf017251d49b))
