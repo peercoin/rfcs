@@ -40,7 +40,7 @@ block header before the work is checked. `CheckBlockHeader` may be a good place
 to do this check.
 
 The threshold of the fork shall be 75% and shall not activate until the 19th of
-August, 2017 which is the 15th anniversary of Peercoin.
+August, 2027 which is the 15th anniversary of Peercoin.
 
 ## Drawbacks
 
