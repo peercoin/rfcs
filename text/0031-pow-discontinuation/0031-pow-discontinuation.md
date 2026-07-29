@@ -15,19 +15,19 @@ efficient pure Proof-of-Stake coin.
 
 ## Motivation
 
-PoW has been used to distribute coins since inception and has ensured the fair
-distribution of Peercoin for almost 14 years with no premine. When Peercoin was
-launched in 2012, GPU mining was still dominant. Now mining is the preserve of
-industrialised ASIC mining farms, outside the reach of ordinary people.
+PoW has ensured the fair distribution of Peercoin for almost 14 years without a
+premine. Over 27.8 million Peercoin have been mined to date, representing almost
+92% of all coins issued.
+[See the chart here](https://charts.peercoinexplorer.net/coinsupply/6/linear/default).
 
-PoW is not used to secure the blockchain. Only PoS is.
+When Peercoin was launched in 2012, GPU mining was still dominant but is now the
+preserve of industrialised ASIC mining farms, outside the reach of ordinary
+people.
 
-PoW has done its job of distribution with a long opportunity to mine Peercoin.
-The ongoing use of PoW only serves to dilute existing holders with a cost that
-is no longer necessary.
-
-Continued PoW issuance creates unnecessary downward pressure on the price.
-Resources are used with negative environmental impact.
+PoW allowed for the fair distribution of Peercoin but it is not used to secure
+the blockchain. Ongoing PoW, dilutes existing holders with a cost that is no
+longer necessary. It has a downward effect on the price with negative
+environmental impact.
 
 Moving to pure PoS makes Peercoin easier to understand with a clear narrative
 of efficiency.
