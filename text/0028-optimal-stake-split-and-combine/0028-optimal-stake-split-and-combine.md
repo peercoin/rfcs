@@ -1,6 +1,6 @@
 # Optimal Stake Split and Combine
 
-- Status: proposed
+- Status: implemented
 - Type: enhancement
 - Start Date: 20-08-2023
 - Discussion: (fill me in with link to RFC discussion - shepherd will complete this) 
